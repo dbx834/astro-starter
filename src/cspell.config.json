@@ -1,0 +1,91 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "useGitignore": true,
+  "language": "en",
+  "dictionaries": [
+    "en_US",
+    "softwareTerms",
+    "node",
+    "npm",
+    "filetypes",
+    "fullstack",
+    "html",
+    "css",
+    "fonts",
+    "typescript",
+    "bash",
+    "cpp",
+    "companies"
+  ],
+  "dictionaryDefinitions": [
+    {
+      "name": "project-words",
+      "path": "./.cspell/project-words.txt",
+      "addWords": true
+    }
+  ],
+  "enableFiletypes": [
+    "astro",
+    "markdown",
+    "mdx",
+    "html",
+    "json",
+    "yaml",
+    "yml",
+    "css",
+    "scss",
+    "javascript",
+    "typescript",
+    "tsx",
+    "jsx",
+    "shellscript"
+  ],
+  "ignorePaths": [
+    "dist",
+    ".astro",
+    ".vite",
+    "node_modules",
+    "coverage",
+    "build",
+    "public",
+    "**/*.min.*",
+    "**/*.map",
+    "**/*.lock",
+    "pnpm-lock.yaml"
+  ],
+  "ignoreRegExpList": [
+    "/https?:\\/\\/\\S+/g",
+    "/[A-Za-z0-9+\\/=]{20,}/g", // base64-ish
+    "/\\b[0-9a-f]{7,}\\b/gi" // hex SHAs
+  ],
+  "words": [
+    // common tech terms you use; adjust freely:
+    "Astro",
+    "TypeScript",
+    "TailwindCSS",
+    "pnpm",
+    "SublimeLinter",
+    "Prettier",
+    "Husky",
+    "Vitest",
+    "Playwright",
+    "SonarJS",
+    "RegExp",
+    "Auroville",
+    "Aurobindo",
+    "Prisma",
+    "Sonda",
+    "Partytown"
+  ],
+  "overrides": [
+    {
+      "filename": "**/*.astro",
+      "languageId": "astro"
+    },
+    {
+      "filename": ["**/.env", "**/.env.*"],
+      "enabled": false
+    }
+  ]
+}

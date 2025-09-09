@@ -1,0 +1,15 @@
+{
+  "linters": {
+    "eslint": {
+      "disable": false,
+      "args": [],
+      "executable": [
+        // Path to Node (make sure this matches your upgraded Node)
+        "/Users/pranavkumar/.nvm/versions/node/v22.12.0/bin/node",
+        // Local ESLint binary from your project
+        "node_modules/.bin/eslint"
+      ],
+      "selector": "source.js, source.jsx, source.ts, source.tsx, text.html.astro"
+    }
+  }
+}

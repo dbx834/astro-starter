@@ -1,0 +1,65 @@
+---
+import { Head } from "astro-capo";
+import { Schema } from "astro-seo-schema";
+import { Seo } from "astro-seo-meta";
+import "../styles/global.css";
+import { AstroFont } from "astro-font";
+import { Button } from "@/components/ui/button";
+---
+
+<html>
+  <Head>
+    <meta charset="utf-8" />
+    <title>Page</title>
+    <Seo title="Page" description="A page" />
+    <AstroFont
+      config={[
+        {
+          name: "Afacad",
+          src: [
+            {
+              style: "normal",
+              weight: "400",
+              path: "./public/fonts/Afacad-Regular.woff2",
+            },
+            {
+              style: "medium",
+              weight: "500",
+              path: "./public/fonts/Afacad-Medium.woff2",
+            },
+          ],
+          preload: false,
+          display: "swap",
+          selector: "body",
+          fallback: "sans-serif",
+        },
+      ]}
+    />
+    <Schema
+      item={{
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: "Grace Brewster",
+        alternateName: "Grace Brewster Murray Hopper",
+        alumniOf: {
+          "@type": "CollegeOrUniversity",
+          name: ["Yale University", "Vassar College"],
+        },
+        knowsAbout: ["Compilers", "Computer Science"],
+      }}
+    />
+    <style>
+      h1 {
+        color: red;
+      }
+    </style>
+  </Head>
+
+  <body>
+    <h1>Hello, World!</h1>
+    <Button client:load onClick={() => console.info("Button clicked!")}>
+      Button
+    </Button>
+    <div style="margin-top:200vh;"><h1>Hello, World!</h1></div>
+  </body>
+</html>

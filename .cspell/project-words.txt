@@ -1,0 +1,4 @@
+# Add domain terms you don't want flagged (one per line)
+Auroville
+Pranav
+Barry

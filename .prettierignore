@@ -1,0 +1,6 @@
+dist
+.astro
+.vite
+node_modules
+coverage
+*.min.js

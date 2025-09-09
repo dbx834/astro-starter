@@ -1,0 +1,34 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-tailwindcss"],
+  "plugins": ["stylelint-order"],
+  "rules": {
+    /* Allow Tailwind at-rules like @tailwind, @apply, @layer */
+    "at-rule-no-unknown": null,
+
+    /* Useful ordering helpers (feel free to tune/remove) */
+    "order/order": [
+      "custom-properties",
+      "dollar-variables",
+      "declarations",
+      { "type": "at-rule", "name": "supports" },
+      { "type": "at-rule", "name": "media" },
+      "rules"
+    ],
+    "order/properties-order": [],
+
+    /* Typical niceties */
+    "color-hex-length": "short",
+    "no-descending-specificity": null
+  },
+  "overrides": [
+    {
+      "files": ["**/*.astro", "**/*.html"],
+      "customSyntax": "postcss-html"
+    },
+    {
+      "files": ["**/*.scss"],
+      "customSyntax": "postcss-scss"
+    }
+  ],
+  "ignoreFiles": ["dist/**", ".astro/**", ".vite/**", "node_modules/**"]
+}

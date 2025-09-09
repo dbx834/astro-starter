@@ -1,0 +1,115 @@
+{
+  "type": "module",
+  "scripts": {
+    "start": "astro dev",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "prepare": "husky",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "stylelint": "stylelint \"**/*.{css,scss,astro,html}\"",
+    "stylelint:fix": "stylelint \"**/*.{css,scss,astro,html}\" --fix",
+    "commitlint": "commitlint --from origin/main --to HEAD",
+    "spell": "cspell --no-progress --cache --gitignore \"**/*\"",
+    "spell:changed": "cspell --no-progress --cache --gitignore --since origin/main",
+    "spell:md": "cspell --no-progress --cache --gitignore \"**/*.{md,mdx}\""
+  },
+  "overrides": {
+    "react": "npm:@preact/compat@latest",
+    "react-dom": "npm:@preact/compat@latest"
+  },
+  "lint-staged-strict": {
+    "*.{md,mdx,txt,astro,html,js,jsx,ts,tsx,css,scss,json,yml,yaml}": [
+      "cspell --no-progress --no-summary --cache --gitignore --stdin --stdin-filename \"{filepath}\""
+    ],
+    "*.{js,jsx,ts,tsx,astro}": [
+      "eslint --fix --cache --cache-location .eslintcache"
+    ],
+    "*.{css,scss,astro,html}": [
+      "stylelint --fix --cache"
+    ],
+    "*.{astro,md,css,scss,html,json,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "lint-staged": {
+    "*.{astro,md,css,scss,html,json,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@astrojs/partytown": "^2.1.4",
+    "@astrojs/preact": "^4.1.0",
+    "@astrojs/sitemap": "^3.4.1",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@swup/astro": "^1.7.0",
+    "@tailwindcss/vite": "^4.1.12",
+    "astro": "^5.10.1",
+    "astro-capo": "^0.0.1",
+    "astro-compressor": "^1.0.0",
+    "astro-font": "^1.1.0",
+    "astro-lenis": "^1.0.0",
+    "astro-min": "^1.3.1",
+    "astro-page-insight": "^0.10.2",
+    "astro-purgecss": "^5.2.3",
+    "astro-seo-meta": "^5.2.0",
+    "astro-seo-schema": "^5.1.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lenis": "^1.3.8",
+    "lucide-react": "^0.540.0",
+    "preact": "^10.27.1",
+    "purgecss": "^7.0.2",
+    "schema-dts": "^1.1.5",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.33.0",
+    "@kindspells/astro-shield": "^1.7.1",
+    "@playform/inline": "^0.1.2",
+    "@tailwindcss/postcss": "^4.1.12",
+    "@unocss/reset": "^66.4.2",
+    "astro-devtool-breakpoints": "^0.3.0",
+    "astro-html-beautifier": "^1.0.4",
+    "astro-lighthouse": "^0.1.3",
+    "astro-og": "^0.3.0",
+    "astro-relative-links": "^0.4.2",
+    "astro-robots-txt": "^1.0.0",
+    "astrojs-service-worker": "^2.0.0",
+    "autoprefixer": "^10.4.21",
+    "cspell": "^9.2.0",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-astro": "^1.3.1",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-n": "^17.21.3",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-regexp": "^2.10.0",
+    "eslint-plugin-sonarjs": "^3.0.4",
+    "eslint-plugin-tailwindcss": "^3.18.2",
+    "eslint-plugin-unicorn": "^60.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5",
+    "postcss": "^8.5.6",
+    "postcss-html": "^1.8.0",
+    "prettier": "3.6.2",
+    "prettier-plugin-astro": "0.14.1",
+    "sonda": "^0.8.2",
+    "stylelint": "^16.23.1",
+    "stylelint-config-standard": "^39.0.0",
+    "stylelint-config-tailwindcss": "^1.0.0",
+    "stylelint-order": "^7.0.0",
+    "tw-animate-css": "^1.3.7",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.40.0",
+    "unocss": "^66.4.2"
+  }
+}

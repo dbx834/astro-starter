@@ -1,0 +1,42 @@
+# .editorconfig
+# Most editors (VS Code, Sublime, JetBrains, Vim) honor this automatically.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Makefiles need tabs
+[Makefile]
+indent_style = tab
+indent_size = 4
+
+# Markdown / prose: keep trailing spaces (for hard line breaks)
+[*.{md,mdx,markdown,txt}]
+trim_trailing_whitespace = false
+
+# Astro / HTML / CSS
+[*.{astro,html,css,scss}]
+indent_style = space
+indent_size = 2
+
+# Scripts
+[*.{js,jsx,ts,tsx}]
+indent_style = space
+indent_size = 2
+
+# Config files (JSON / YAML / TOML)
+[*.{json,jsonc,yml,yaml,toml}]
+indent_style = space
+indent_size = 2
+
+# Shell & dotfiles
+[*.{sh,bash,zsh}]
+end_of_line = lf
+indent_style = space
+indent_size = 2

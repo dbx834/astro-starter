@@ -1,0 +1,91 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "folder_exclude_patterns": ["dist", ".astro", ".vite", "node_modules", "coverage"],
+      "file_exclude_patterns": ["*.min.js", "*.log", "*.tmp", "*.bak"]
+    }
+  ],
+
+  "build_systems": [
+    {
+      "name": "npm: spell",
+      "shell_cmd": "npm spell",
+      "working_dir": "${project_path}"
+    },
+    {
+      "name": "npm: dev",
+      "shell_cmd": "npm dev",
+      "working_dir": "${project_path}"
+    },
+    {
+      "name": "npm: build",
+      "shell_cmd": "npm build",
+      "working_dir": "${project_path}"
+    },
+    {
+      "name": "npm: lint",
+      "shell_cmd": "npm lint",
+      "working_dir": "${project_path}",
+      "variants": [
+        { "name": "npm: lint:fix", "shell_cmd": "npm lint:fix" }
+      ]
+    },
+    {
+      "name": "npm: format",
+      "shell_cmd": "npm format",
+      "working_dir": "${project_path}",
+      "variants": [
+        { "name": "npm: format:check", "shell_cmd": "npm format:check" }
+      ]
+    },
+    {
+      "name": "npm: test",
+      "shell_cmd": "npm test",
+      "working_dir": "${project_path}"
+    }
+  ],
+
+  "settings": {
+    // Editor feel
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true,
+    "ensure_newline_at_eof_on_save": true,
+    "trim_trailing_white_space_on_save": true,
+
+    // JsPrettier (if installed)
+    "js_prettier": {
+      "prettier_cli_path": "./node_modules/.bin/prettier",
+      "auto_format_on_save": true
+    },
+
+    // SublimeLinter global toggles
+    "SublimeLinter": {
+      "lint_mode": "background",
+      "styles": [
+        { "mark_style": "outline", "priority": 1, "scope": "region.redish" }
+      ],
+      "paths": {
+        "osx": ["/Users/pranavkumar/.nvm/versions/node/v22.12.0/bin/node"],
+        "linux": ["/Users/pranavkumar/.nvm/versions/node/v22.12.0/bin/node"],
+        "windows": []
+      }
+    }
+  },
+
+  // Per-plugin settings
+  "SublimeLinter.linters.eslint": {
+    "executable": [
+      "/Users/you/.nvm/versions/node/v20.18.3/bin/node",
+      "node_modules/.bin/eslint"
+    ],
+    "args": ["--cache", "--cache-location", ".eslintcache"],
+    "selector": "source.js, source.jsx, source.ts, source.tsx, text.html.astro"
+  },
+
+  "SublimeLinter.linters.stylelint": {
+    "executable": "node_modules/.bin/stylelint",
+    "args": ["--cache"],
+    "selector": "source.css, source.scss, text.html.basic, text.html.astro"
+  }
+}
