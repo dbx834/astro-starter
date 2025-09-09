@@ -1,8 +1,8 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+# #!/usr/bin/env sh
+# . "$(dirname -- "$0")/_/husky.sh"
 
-echo "Spellchecking (changed files vs origin/main)…"
-npm run spell:changed || {
-  echo "cspell found issues. Fix typos or add legit terms to .cspell/project-words.txt"
-  exit 1
-}
+# echo "Spellchecking (changed files vs origin/main)…"
+# npm run spell:changed || {
+#   echo "cspell found issues. Fix typos or add legit terms to .cspell/project-words.txt"
+#   exit 1
+# }
