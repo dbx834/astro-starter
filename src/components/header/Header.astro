@@ -1,0 +1,36 @@
+---
+import Glider from "./glider/Glider.astro";
+import Toolbar from "./toolbar/Toolbar.astro";
+---
+
+<header id="meta">
+  <div class="container">
+    <ul>
+      <li>
+        <ul>
+          <li><a href="/">Homepage</a></li>
+          <li><a href="/articles">Articles</a></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li><a href="/index-page">Index</a></li>
+          <li><a href="/search">Search</a></li>
+          <li>
+            <button class="linklike" onclick="openGlider('about')">
+              About
+            </button>
+          </li>
+          <li>
+            <button class="linklike" onclick="openGlider('contact')">
+              Contact
+            </button>
+          </li>
+          <Toolbar />
+        </ul>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<Glider />

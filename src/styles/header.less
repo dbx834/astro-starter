@@ -1,0 +1,231 @@
+html#meta {
+  body#meta {
+    .glider-inner {
+      & .settings-grid {
+        display: grid;
+        gap: var(--p);
+
+        grid-template-columns: repeat(auto-fit, 60px);
+
+        > div {
+          display: grid;
+          gap: var(--p5);
+          grid-template-rows: 60px 10px;
+        }
+
+        button.linklike {
+          width: 60px;
+          height: 60px;
+
+          svg {
+            width: 60px;
+            height: 60px;
+
+            &.yin-yang {
+              path {
+                &:nth-child(1) { fill: var(--light) !important; }
+                &:nth-child(2) { fill: var(--dark) !important; }
+              }
+            }
+
+            &.sizer {
+              circle {
+                &:nth-child(1) { stroke: var(--dark); }
+                &:nth-child(2) { fill: var(--dark); }
+              }
+            }
+
+            &.font-family {
+              circle { stroke: var(--dark); }
+              text {
+                font-family: var(--font-body);
+                font-weight: 900;
+                fill: var(--dark);
+              }
+            }
+          }
+        }
+
+        span {
+          width: 10px;
+          height: 10px;
+          justify-self: center;
+          border-radius: 50%;
+          transition: all 400ms ease;
+
+          &.passive { background: #cecece; opacity: 0.5; }
+          &.active  { background: #008000; opacity: 1; }
+        }
+      }
+    }
+
+    header#meta {
+      & .container {
+        margin-top: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--dark);
+        transition: all 300ms ease;
+        margin-bottom: 1rem;
+
+        & > ul {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          & > li {
+            &:nth-child(1) {
+              & > ul {
+                display: flex;
+                gap: 0.5rem;
+              }
+            }
+
+            &:nth-child(2) {
+              & > ul {
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+
+                & button.toolbar-button {
+                  height: 24px;
+                  width: 24px;
+                  cursor: pointer;
+
+                  & .settings {
+                    height: 27px;
+                    width: 27px;
+
+                    & path {
+                      transition: all 500ms ease;
+                      fill: var(--dark);
+                    }
+                  }
+
+                  & .sizer {
+                    height: 24px;
+                    width: 24px;
+
+                    & > g {
+                      & > circle {
+                        transition: all 500ms ease;
+
+                        &:nth-child(1) {
+                          stroke: var(--dark) !important;
+                        }
+
+                        &:nth-child(2) {
+                          fill: var(--dark) !important;
+                        }
+                      }
+                    }
+                  }
+
+                  & .yin-yang {
+                    height: 24px;
+                    width: 24px;
+
+                    & > path {
+                      transition: all 500ms ease;
+
+                      &:nth-child(1) {
+                        fill: var(--light) !important;
+                      }
+
+                      &:nth-child(2) {
+                        fill: var(--dark) !important;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Larger screens
+    &.x-w-xxl,
+    &.x-w-xl,
+    &.x-w-lg {
+    }
+
+    // Small screens
+    &.x-w-md,
+    &.x-w-sm,
+    &.x-w-xs {
+    }
+
+    // iPad, landscape mode
+    &.x-w-md.x-is-landscape {
+    }
+
+    // iPad, portrait mode
+    &.x-w-md.x-is-portrait {
+    }
+
+    // Extra-extra-large screen width, min-width is 1600px
+    &.x-w-xxl {
+    }
+
+    // Extra-large screen width, min-width is 1201px and max-width is 1599px
+    &.x-w-xl {
+    }
+
+    // Large screen width, min-width is 993px and max-width is 1200px
+    &.x-w-lg {
+    }
+
+    // Medium screen width, min-width is 769px and max-width is 992px
+    &.x-w-md {
+    }
+
+    // Small screen width, min-width is 577px and max-width is 768px
+    &.x-w-sm {
+    }
+
+    // Extra-small screen width, max-width is 576px
+    &.x-w-xs {
+    }
+
+    // Extra-extra-large screen height, min-height is 1600px
+    &.x-h-xxl {
+    }
+
+    // Extra-large screen height, min-height is 1201px and max-height is 1599px
+    &.x-h-xl {
+    }
+
+    // Large screen height, min-height is 993px and max-height is 1200px
+    &.x-h-lg {
+    }
+
+    // Medium screen height, min-height is 769px and max-height is 992px
+    &.x-h-md {
+    }
+
+    // Small screen height, min-height is 577px and max-height is 768px
+    &.x-h-sm {
+    }
+
+    // Extra-small screen height, max-height is 576px
+    &.x-h-xs {
+    }
+
+    // Screen orientation is portrait
+    &.x-is-portrait {
+    }
+
+    // Screen orientation is landscape
+    &.x-is-landscape {
+    }
+
+    // Screen type is retina
+    &.x-is-retina {
+    }
+
+    // Is client and not server
+    &.x-is-client {
+    }
+  }
+}

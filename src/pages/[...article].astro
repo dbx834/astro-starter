@@ -1,0 +1,42 @@
+---
+import Layout from "@/layouts/main.astro";
+
+import Content from "@/components/article/Content.astro";
+import Img from "@/components/img/Img.astro";
+
+import { getEntry } from "astro:content";
+import { getCollectionCached as getCollection } from "@/lib/build-cache";
+
+export async function getStaticPaths() {
+  const nodes = await getCollection("articles");
+  return nodes.map((n) => ({
+    params: { article: n.data.slug },
+    props: {
+      id: n.id,
+      data: {
+        title: n.data?.title,
+        text: n.data?.text,
+        cover: n.data?.cover,
+      },
+    },
+  }));
+}
+
+const { data: node } = Astro.props || {};
+
+const { title = "", text, cover } = node ?? {};
+---
+
+<Layout>
+  <div class="container">
+    <div class="grid PX240-AUTO">
+      <div>
+        <Img attachment={cover[0]} />
+      </div>
+      <div>
+        <h1>{title}</h1>
+        <Content node={node} />
+      </div>
+    </div>
+  </div>
+</Layout>

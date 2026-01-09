@@ -1,0 +1,29 @@
+---
+import { getCollectionCached as getCollection } from "@/lib/build-cache";
+import { prewarmCollections } from "@/lib/prewarm-collections";
+
+import Footer from "@/components/footer/Footer.astro";
+import Header from "@/components/header/Header.astro";
+
+import { Head } from "astro-capo";
+
+import "../styles/index.less";
+
+await prewarmCollections();
+---
+
+<html lang="en" id="meta" class="t-0">
+  <Head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </Head>
+  <body id="meta">
+    <div id="layout">
+      <Header />
+      <main id="meta">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

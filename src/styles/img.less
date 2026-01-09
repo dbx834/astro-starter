@@ -1,0 +1,55 @@
+.x-img {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  background: transparent;
+}
+.x-img picture,
+.x-img img,
+.x-img__shimmer {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.x-img__shimmer {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  background: linear-gradient(-45deg, var(--palette));
+  background-size: 600% 600%;
+  /* 1) keep shimmering        2) auto-hide after 3s */
+  animation:
+    ximg-shimmer var(--shimmer-duration) ease infinite,
+    ximg-autohide var(--shimmer-fadeout) linear var(--shimmer-autohide) forwards;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+  will-change: opacity, visibility;
+}
+/* Also hide immediately when your code adds .is-loaded */
+.x-img.is-loaded .x-img__shimmer {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@keyframes ximg-shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* This one does the timed fade after 3s */
+@keyframes ximg-autohide {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .x-img__shimmer {
+    /* No shimmer motion, but still auto-hide after 3s */
+    animation:
+      ximg-autohide var(--shimmer-fadeout) linear var(--shimmer-autohide) forwards;
+  }
+}

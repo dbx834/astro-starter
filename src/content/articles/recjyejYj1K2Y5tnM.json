@@ -1,0 +1,37 @@
+{
+  "__syncedAt": "2026-01-09T06:25:14.152Z",
+  "cover": [
+    {
+      "id": "attGLCg7y0ZzreXUF",
+      "url": "https://v5.airtableusercontent.com/v3/u/49/49/1767952800000/0LFRAUskzrUB3R0W2rRlQg/jcHNs-3OHw0LqWBKjAY-hSDUCw8YMYdvoi2voWEcpJQdLoOnvS5JT1NPADHKzeOq3enJ-rgiMtE_uVSODJtm0QhDhT9SvY-5ms-p6tkwQr1dwH58QUC2iKE1iTR9AhViDC8huZaNLHnBgnotG7L0ezR-BEwTTE8sJC__MCcZ3kyMNSg1WuD578CKccGNSNJW/-3BYA9sj9ZqjZQ2l5JsDQlPHx25QiA_EF_8CZMA2qqU",
+      "size": 395987,
+      "type": "image/jpeg",
+      "width": 2000,
+      "height": 1288,
+      "filename": "andreas-rocha-wizardstower01.jpg",
+      "cleanFilename": "andreas-rocha-wizardstower01",
+      "aspectRatio": 1.5527950310559007
+    }
+  ],
+  "coverSource": [
+    {
+      "id": "attGLCg7y0ZzreXUF",
+      "url": "https://v5.airtableusercontent.com/v3/u/49/49/1767952800000/0LFRAUskzrUB3R0W2rRlQg/jcHNs-3OHw0LqWBKjAY-hSDUCw8YMYdvoi2voWEcpJQdLoOnvS5JT1NPADHKzeOq3enJ-rgiMtE_uVSODJtm0QhDhT9SvY-5ms-p6tkwQr1dwH58QUC2iKE1iTR9AhViDC8huZaNLHnBgnotG7L0ezR-BEwTTE8sJC__MCcZ3kyMNSg1WuD578CKccGNSNJW/-3BYA9sj9ZqjZQ2l5JsDQlPHx25QiA_EF_8CZMA2qqU",
+      "size": 395987,
+      "type": "image/jpeg",
+      "width": 2000,
+      "height": 1288,
+      "filename": "andreas-rocha-wizardstower01.jpg",
+      "cleanFilename": "andreas-rocha-wizardstower01",
+      "aspectRatio": 1.5527950310559007
+    }
+  ],
+  "index": 2,
+  "lastModified": "2026-01-09T06:20:43.000Z",
+  "lastModifiedX": 1767939643,
+  "recordId": "recjyejYj1K2Y5tnM",
+  "slug": "/articles/2/another-title",
+  "status": "Published",
+  "text": "Some other text\n",
+  "title": "Another title"
+}

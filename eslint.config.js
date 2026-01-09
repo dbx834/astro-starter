@@ -1,4 +1,3 @@
-// eslint.config.js
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import astro from "eslint-plugin-astro";
@@ -12,42 +11,71 @@ import regexp from "eslint-plugin-regexp";
 import eslintComments from "eslint-plugin-eslint-comments";
 import eslintConfigPrettier from "eslint-config-prettier";
 
-// Some plugins publish flat configs; safely include them when available.
-const maybe = (cfg) => (cfg ? [cfg] : []);
+import astroParser from "astro-eslint-parser";
+import tsParser from "@typescript-eslint/parser";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
 
+// helper: include flat configs only if present
+const maybe = (cfg) => (cfg ? [cfg] : []);
 const nFlat = n.configs?.["flat/recommended"];
 const regexpFlat = regexp.configs?.["flat/recommended"];
 const astroFlat = astro.configs?.["flat/recommended"];
-// Many plugins still ship legacy configs; we’ll enable key rules manually below.
 
 export default [
-  // Ignore build & cache folders
-  { ignores: ["dist/**", ".astro/**", ".vite/**", "node_modules/**"] },
+  // Ignores
+  {
+    ignores: [
+      "astro.config.*",
+      "dist/**",
+      ".astro/**",
+      ".vite/**",
+      "node_modules/**",
+    ],
+  },
 
   // Base JS
   js.configs.recommended,
 
-  // TypeScript (type-aware)
+  // TS (type-aware) — only for JS/TS, not .astro
   ...tseslint.configs.recommendedTypeChecked,
-
-  // Astro
-  ...maybe(astroFlat),
-
-  // Type-aware parser options
   {
-    files: ["**/*.ts", "**/*.tsx"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
+      parser: tsParser,
       parserOptions: {
         project: ["./tsconfig.json"],
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    plugins: { "@typescript-eslint": tsPlugin },
+    rules: {
+      // your TS/JS rules here
+    },
   },
 
-  // Let ESLint lint <script> inside .astro files
-  { files: ["**/*.astro"], processor: astro.processors.astro },
+  // ✅ Astro support (let this wire the processor)
+  ...maybe(astroFlat),
 
-  // Tailwind class checks
+  // If you want extra Astro-specific rules/tweaks, do it here,
+  // but do NOT reassign another processor:
+  {
+    files: ["**/*.astro"],
+    languageOptions: {
+      parser: astroParser,
+      parserOptions: {
+        // Allow frontmatter <script> to be parsed by TS parser
+        parser: tsParser,
+        extraFileExtensions: [".astro"],
+        // IMPORTANT: don't pass TS project here (keeps it fast/stable)
+      },
+    },
+    rules: {
+      // examples:
+      // "astro/no-unused-css-selector": "warn",
+    },
+  },
+
+  // Tailwind — include .astro
   {
     files: ["**/*.{astro,html,jsx,tsx}"],
     plugins: { tailwind },
@@ -58,15 +86,16 @@ export default [
     },
     settings: {
       tailwindcss: {
+        astro: true,
         callees: ["classnames", "clsx", "ctl"],
         config: "tailwind.config.js",
       },
     },
   },
 
-  // ✅ Import ordering + resolution
+  // Import plugin — limit to JS/TS to avoid .astro quirks
   {
-    files: ["**/*.{js,jsx,ts,tsx,astro}"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: { import: importPlugin },
     settings: {
       "import/resolver": {
@@ -100,23 +129,22 @@ export default [
     },
   },
 
-  // ✅ Unicorn (must-have quality rules)
+  // Unicorn
   {
     plugins: { unicorn },
     rules: {
-      // A focused subset of high-value rules
       "unicorn/better-regex": "warn",
       "unicorn/filename-case": ["warn", { case: "kebabCase" }],
       "unicorn/no-abusive-eslint-disable": "error",
       "unicorn/no-array-callback-reference": "warn",
       "unicorn/no-for-loop": "warn",
-      "unicorn/no-null": "off", // many TS codebases allow null
       "unicorn/prefer-node-protocol": "warn",
       "unicorn/prefer-top-level-await": "warn",
+      "unicorn/no-null": "off",
     },
   },
 
-  // ✅ SonarJS (bug/smell detection)
+  // SonarJS
   {
     plugins: { sonarjs },
     rules: {
@@ -134,43 +162,42 @@ export default [
     },
   },
 
-  // ✅ Promises
+  // Promises
   {
     plugins: { promise },
     rules: {
-      "promise/always-return": "off",
-      "promise/no-nesting": "warn",
       "promise/no-new-statics": "error",
       "promise/no-return-wrap": "error",
       "promise/param-names": "error",
-      "promise/catch-or-return": "warn",
       "promise/no-multiple-resolved": "error",
+      "promise/no-nesting": "warn",
+      "promise/catch-or-return": "warn",
+      "promise/always-return": "off",
     },
   },
 
-  // ✅ Node
+  // Node
   ...maybe(nFlat),
   {
     plugins: { n },
     rules: {
       "n/no-deprecated-api": "error",
       "n/prefer-global/process": ["warn", "always"],
-      "n/no-missing-import": "off", // handled by import/no-unresolved + TS
+      "n/no-missing-import": "off", // TS + import plugin handle this
     },
   },
 
-  // ✅ RegExp
+  // RegExp
   ...maybe(regexpFlat),
   {
     plugins: { regexp },
     rules: {
-      // a couple of extra safety checks
       "regexp/optimal-quantifier-concatenation": "warn",
       "regexp/prefer-character-class": "warn",
     },
   },
 
-  // ✅ ESLint-comments (keep disables disciplined)
+  // ESLint-comments
   {
     plugins: { "eslint-comments": eslintComments },
     rules: {
@@ -196,5 +223,7 @@ export default [
       ],
     },
   },
+
+  // Put Prettier last
   eslintConfigPrettier,
 ];

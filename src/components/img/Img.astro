@@ -1,0 +1,238 @@
+---
+import fsp from "node:fs/promises";
+import path from "node:path";
+
+/* ------------------------------ manifest cache ------------------------------ */
+const MANIFEST_CACHE =
+  globalThis.__ATTACHMENT_MANIFEST_CACHE__ ??
+  (globalThis.__ATTACHMENT_MANIFEST_CACHE__ = new Map());
+
+async function readManifestById(id) {
+  if (!id) return null;
+  if (MANIFEST_CACHE.has(id)) return MANIFEST_CACHE.get(id);
+
+  const file = path.join(
+    process.cwd(),
+    "public",
+    "attachments",
+    id,
+    "manifest.json",
+  );
+  try {
+    const raw = await fsp.readFile(file, "utf8");
+    const json = JSON.parse(raw);
+    MANIFEST_CACHE.set(id, json);
+    return json;
+  } catch {
+    MANIFEST_CACHE.set(id, null);
+    return null;
+  }
+}
+
+/* ------------------------------ helpers ------------------------------ */
+const exists = (v) => v !== undefined && v !== null && v !== "";
+
+function styleObjToCss(obj) {
+  return Object.entries(obj || {})
+    .filter(([, v]) => exists(v))
+    .map(
+      ([k, v]) => `${k.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}:${v}`,
+    )
+    .join(";");
+}
+
+function parseAspectRatioToNumber(v) {
+  if (v == null || v === "") return undefined;
+  if (typeof v === "number") return v > 0 ? v : undefined;
+
+  const s = String(v).trim();
+  if (!s) return undefined;
+
+  const slash = s.split("/");
+  if (slash.length === 2) {
+    const w = parseFloat(slash[0]);
+    const h = parseFloat(slash[1]);
+    if (w > 0 && h > 0) return w / h;
+  }
+
+  const num = parseFloat(s);
+  return num > 0 ? num : undefined;
+}
+
+function clampAspectRatio(ar, minAR, maxAR) {
+  if (!ar || !Number.isFinite(ar) || ar <= 0) return undefined;
+  const min = Math.max(0.01, Number(minAR) || 0.5);
+  const max = Math.max(min, Number(maxAR) || 2);
+  return Math.min(max, Math.max(min, ar));
+}
+
+function widthFromUrl(u) {
+  // expects .../768w.avif etc
+  const m = String(u).match(/\/(\d+)w\.(?:avif|webp|jpe?g)$/i);
+  return m ? Number(m[1]) : null;
+}
+
+function mkSrcset(urls = []) {
+  return urls
+    .map((u) => {
+      const w = widthFromUrl(u);
+      return w ? `${u} ${w}w` : null;
+    })
+    .filter(Boolean)
+    .join(", ");
+}
+
+function pickClosestWidthUrl(urls = [], target = 640) {
+  const list = urls
+    .map((u) => ({ u, w: widthFromUrl(u) }))
+    .filter((x) => x.w && x.w > 0)
+    .sort((a, b) => a.w - b.w);
+
+  if (!list.length) return null;
+  return (list.find((x) => x.w >= target) ?? list[list.length - 1]).u;
+}
+
+function toNumber(v) {
+  return typeof v === "number" ? v : v ? parseInt(v, 10) : undefined;
+}
+
+/* ------------------------------ props ------------------------------ */
+const {
+  attachment = {},
+  style = {},
+  className = "",
+  objectFit = "cover",
+  objectPosition = "top",
+  loading = "lazy",
+  picStyle = {},
+  alt,
+  priority = false,
+  overwriteAspectRatio,
+  minAspectRatio = 0.66,
+  maxAspectRatio = 1.66,
+  withCaption = false,
+  maxWidth,
+  useManifestFocus = true,
+} = Astro.props || {};
+
+const { id, cleanFilename } = attachment || {};
+
+/* ------------------------------ manifest ------------------------------ */
+const manifest = await readManifestById(id);
+
+const intrinsicW = manifest?.width ?? attachment?.width ?? 1;
+const intrinsicH = manifest?.height ?? attachment?.height ?? 1;
+
+/** Use manifest.aspectRatio on the wrapper (clamped), unless overwritten */
+const arFromManifest = parseAspectRatioToNumber(manifest?.aspectRatio);
+const arOverwrite = parseAspectRatioToNumber(overwriteAspectRatio);
+const arFallback =
+  intrinsicW && intrinsicH ? intrinsicW / intrinsicH : undefined;
+
+const resolvedAR = clampAspectRatio(
+  arOverwrite ?? arFromManifest ?? arFallback,
+  minAspectRatio,
+  maxAspectRatio,
+);
+
+/** Placeholder block color from manifest.palette */
+const pal = manifest?.palette;
+const placeholderBg =
+  pal &&
+  Number.isFinite(pal.r) &&
+  Number.isFinite(pal.g) &&
+  Number.isFinite(pal.b)
+    ? `rgb(${Math.round(pal.r)}, ${Math.round(pal.g)}, ${Math.round(pal.b)})`
+    : undefined;
+
+/** srcsets from clean manifest sources */
+const avifUrls = manifest?.sources?.avif ?? [];
+const webpUrls = manifest?.sources?.webp ?? [];
+const jpegUrls = manifest?.sources?.jpeg ?? [];
+
+const avifSrcset = mkSrcset(avifUrls);
+const webpSrcset = mkSrcset(webpUrls);
+const jpegSrcset = mkSrcset(jpegUrls);
+
+/** Fallback src: prefer ~640w jpeg, else manifest.original */
+const jpegFallbackSrc =
+  pickClosestWidthUrl(jpegUrls, 640) ?? manifest?.original ?? undefined;
+
+/** sizes attr */
+const maxWNum = toNumber(maxWidth);
+const sizesAttr = maxWNum
+  ? `(max-width: ${maxWNum}px) 100vw, ${maxWNum}px`
+  : "100vw";
+
+/** Alt */
+const finalAlt = typeof alt === "string" ? alt : cleanFilename || "";
+
+/** Optional: use saliency focus as object-position */
+const focus = manifest?.focus;
+const resolvedObjectPosition =
+  useManifestFocus && focus?.xPercent != null && focus?.yPercent != null
+    ? `${focus.xPercent}% ${focus.yPercent}%`
+    : objectPosition;
+
+/** styles */
+const wrapperStyle = styleObjToCss({
+  ...(resolvedAR ? { aspectRatio: String(resolvedAR) } : {}),
+  ...(placeholderBg ? { backgroundColor: placeholderBg } : {}),
+  ...style,
+});
+
+const imgInlineStyle = styleObjToCss({
+  objectFit,
+  objectPosition: resolvedObjectPosition,
+  ...picStyle,
+});
+---
+
+<div
+  class={`x-img ${className}`.trim()}
+  style={wrapperStyle}
+  title={cleanFilename}
+>
+  {
+    priority && avifSrcset && (
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          imagesrcset={avifSrcset}
+          imagesizes={sizesAttr}
+          type="image/avif"
+        />
+      </head>
+    )
+  }
+
+  <picture>
+    {
+      avifSrcset && (
+        <source srcset={avifSrcset} sizes={sizesAttr} type="image/avif" />
+      )
+    }
+    {
+      webpSrcset && (
+        <source srcset={webpSrcset} sizes={sizesAttr} type="image/webp" />
+      )
+    }
+
+    <img
+      style={imgInlineStyle}
+      src={jpegFallbackSrc}
+      srcset={jpegSrcset || undefined}
+      sizes={sizesAttr}
+      decoding={priority ? "sync" : "async"}
+      fetchpriority={priority ? "high" : undefined}
+      alt={finalAlt}
+      aria-hidden={finalAlt === "" ? "true" : "false"}
+      loading={priority ? "eager" : loading || "lazy"}
+      width={intrinsicW || 1}
+      height={intrinsicH || 1}
+    />
+  </picture>
+</div>
+
+{withCaption && cleanFilename && <p class="x-caption">{cleanFilename}</p>}

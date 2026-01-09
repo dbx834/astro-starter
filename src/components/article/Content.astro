@@ -1,0 +1,10 @@
+---
+import Markdown from "./Markdown";
+
+// ============================== Props ==============================
+const { node } = Astro.props || {};
+
+const { text } = node || {};
+---
+
+<Markdown markdown={text} />
