@@ -173,12 +173,12 @@ Netlify CLI’s `deploy` command creates a draft deploy by default; `--prod` dep
 
 * **`react` / `react-dom` → `@preact/compat`** — forces React imports to resolve to Preact compatibility layer (smaller runtime, React-like API).
 
-[1]: https://astro.build/blog/astro-580/?utm_source=chatgpt.com "Astro 5.8"
-[2]: https://cli.netlify.com/commands/deploy/?utm_source=chatgpt.com "Netlify CLI deploy command"
+[1]: https://astro.build/blog/astro-580/ "Astro 5.8"
+[2]: https://cli.netlify.com/commands/deploy/ "Netlify CLI deploy command"
 [3]: https://www.npmjs.com/package/astro-capo?activeTab=versions&utm_source=chatgpt.com "astro-capo"
-[4]: https://github.com/ktym4a/astro-page-insight?utm_source=chatgpt.com "ktym4a/astro-page-insight"
-[5]: https://astro-shield.kindspells.dev/?utm_source=chatgpt.com "Welcome to Astro-Shield | Astro-Shield Docs"
-[6]: https://github.com/filipsobol/sonda?utm_source=chatgpt.com "filipsobol/sonda: Universal visualizer and analyzer for ..."
+[4]: https://github.com/ktym4a/astro-page-insight "ktym4a/astro-page-insight"
+[5]: https://astro-shield.kindspells.dev/ "Welcome to Astro-Shield | Astro-Shield Docs"
+[6]: https://github.com/filipsobol/sonda "filipsobol/sonda: Universal visualizer and analyzer for ..."
 
 ---
 ## Recommended development environment
@@ -243,18 +243,18 @@ If you want “format on save” to behave like this repo’s tooling (Prettier 
 
 (These patterns come straight from Zed’s formatter + JavaScript/ESLint docs.) ([Zed][7])
 
-[1]: https://zed.dev/git?utm_source=chatgpt.com "Native Git Support"
-[2]: https://zed.dev/extensions/ini?utm_source=chatgpt.com "ini — Zed Extension"
-[3]: https://zed.dev/extensions/astro?utm_source=chatgpt.com "Astro Extension"
-[4]: https://zed.dev/extensions/env?utm_source=chatgpt.com "env — Zed Extension"
-[5]: https://zed.dev/extensions/stylelint?utm_source=chatgpt.com "Stylelint — Zed Extension"
-[6]: https://zed.dev/docs/languages/javascript?utm_source=chatgpt.com "JavaScript | Zed Code Editor Documentation"
-[7]: https://zed.dev/docs/configuring-zed?utm_source=chatgpt.com "Configuring Zed | Zed Code Editor Documentation"
-[8]: https://zed.dev/docs/languages/tailwindcss?utm_source=chatgpt.com "Tailwind CSS | Zed Code Editor Documentation"
-[9]: https://zed.dev/extensions/github-actions?utm_source=chatgpt.com "GitHub Actions Extension"
-[10]: https://zed.dev/extensions/npm-package-json-checker?utm_source=chatgpt.com "NPM Package.json Update Checker Extension"
-[11]: https://zed.dev/extensions/codebook?utm_source=chatgpt.com "Codebook Spell Checker Extension"
-[12]: https://zed.dev/extensions/markdown-oxide?utm_source=chatgpt.com "Markdown Oxide Extension"
+[1]: https://zed.dev/git "Native Git Support"
+[2]: https://zed.dev/extensions/ini "ini — Zed Extension"
+[3]: https://zed.dev/extensions/astro "Astro Extension"
+[4]: https://zed.dev/extensions/env "env — Zed Extension"
+[5]: https://zed.dev/extensions/stylelint "Stylelint — Zed Extension"
+[6]: https://zed.dev/docs/languages/javascript "JavaScript | Zed Code Editor Documentation"
+[7]: https://zed.dev/docs/configuring-zed "Configuring Zed | Zed Code Editor Documentation"
+[8]: https://zed.dev/docs/languages/tailwindcss "Tailwind CSS | Zed Code Editor Documentation"
+[9]: https://zed.dev/extensions/github-actions "GitHub Actions Extension"
+[10]: https://zed.dev/extensions/npm-package-json-checker "NPM Package.json Update Checker Extension"
+[11]: https://zed.dev/extensions/codebook "Codebook Spell Checker Extension"
+[12]: https://zed.dev/extensions/markdown-oxide "Markdown Oxide Extension"
 
 ---
 
@@ -315,6 +315,6 @@ This maps directly onto established responsive image best practices:
 
 The key advantage here is that **all source material generation is automated**: editors attach an image in Airtable, and the scripts handle downloading, resizing, transcoding, and emitting manifests that your Astro components can consume—making “responsive media composition” a build-time concern rather than manual editorial work.
 
-[1]: https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images?utm_source=chatgpt.com "Using responsive images in HTML - MDN Web Docs"
-[2]: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/picture?utm_source=chatgpt.com "The Picture element - HTML - MDN Web Docs"
-[3]: https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types?utm_source=chatgpt.com "Image file type and format guide - Media - MDN Web Docs"
+[1]: https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images "Using responsive images in HTML - MDN Web Docs"
+[2]: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/picture "The Picture element - HTML - MDN Web Docs"
+[3]: https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types "Image file type and format guide - Media - MDN Web Docs"
