@@ -43,3 +43,6 @@ yarn.lock
 # OS
 Thumbs.db
 ehthumbs.db
+
+# Local Netlify folder
+.netlify
