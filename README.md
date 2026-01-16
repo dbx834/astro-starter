@@ -318,3 +318,81 @@ The key advantage here is that **all source material generation is automated**: 
 [1]: https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images "Using responsive images in HTML - MDN Web Docs"
 [2]: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/picture "The Picture element - HTML - MDN Web Docs"
 [3]: https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types "Image file type and format guide - Media - MDN Web Docs"
+
+---
+
+## Project structure
+
+This repository is organized as a conventional **Astro** site with a clear separation between **routes**, **layouts**, **components**, **content**, and **build-time tooling**.
+
+* **`src/pages/`** contains all route files (`.astro`) that define your public URLs (home, article listings, and dynamic article routes).
+* **`src/layouts/`** defines the shared page shell (global HTML wrapper, shared styles, header/footer).
+* **`src/components/`** holds reusable UI building blocks, including:
+
+  * article rendering (Markdown → JSX),
+  * the header/footer,
+  * the Glider side panel (settings UI),
+  * and a responsive image component that consumes generated attachment manifests.
+* **`src/content/`** is the **source of truth** for publishable content via **Astro Content Collections**. In this project, article records are stored as JSON files (synced from Airtable), validated by the schema in `src/content/config.ts`.
+* **`public/attachments/`** contains **generated responsive image derivatives** and `manifest.json` files used at runtime by the image component.
+* **`src/lib/`** and **`src/store/`** contain shared utilities and persistent UI state (theme/day-night/font sizing).
+* **`src/styles/`** contains global LESS modules that define the design system, layout utilities, and component styling.
+
+For a complete, file-by-file breakdown (with one-line explanations for each file and folder), see **`STRUCTURE.md`**.
+
+
+---
+
+## Media-aware breakpoint classes (`media-aware.js`)
+
+`public/scripts/media-aware.js` is a tiny client-side utility that watches the viewport (via `matchMedia`) and keeps the `<body>` tagged with a **stable set of breakpoint / orientation / device classes**. It adds a `media-aware` marker class plus **exactly one width class** (`x-w-xxl | x-w-xl | x-w-lg | x-w-md | x-w-sm | x-w-xs`), **one height class** (`x-h-…`), and flags like `x-is-portrait`, `x-is-landscape`, and `x-is-retina`. Updates are throttled (default ~1000ms, configurable via `window.MEDIA_AWARE_OPTIONS.minIntervalMs`), and it’s Astro-aware: it detaches/re-attaches around `astro:before-swap` / `astro:after-swap` so classes stay correct during client-side navigation. Optionally, it can also write a set of `data-*` attributes onto `<body>` for debugging/inspection, and it emits a `media-state:update` event with the computed state.
+
+### `fixtures.less` and “styling by classes”
+
+`src/styles/fixtures.less` is your **breakpoint styling scaffold**: it mirrors the classes that `media-aware.js` applies and gives you a single place to define global breakpoint overrides **without writing media queries**. Because the classes land on `body#meta`, you can express responsive rules as simple selectors like `body#meta.x-w-xs { … }` or `body#meta.x-w-md.x-is-portrait { … }`. This makes responsiveness very explicit and easy to debug: if a layout looks wrong, you can immediately see which breakpoint class is active and tune the corresponding block.
+
+#### Example 1: collapse the two-column article grid on small screens
+
+```less
+/* src/styles/fixtures.less */
+
+html#meta {
+  body#meta {
+    &.x-w-sm,
+    &.x-w-xs {
+      .grid.PX240-AUTO {
+        grid-template-columns: 1fr;
+
+        > div {
+          &:nth-child(2) {
+            border-left: 0;
+            padding-left: 0;
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+#### Example 2: stack the header nav on phones
+
+```less
+/* src/styles/fixtures.less */
+
+html#meta {
+  body#meta {
+    &.x-w-xs {
+      header#meta {
+        .container > ul {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.75rem;
+        }
+      }
+    }
+  }
+}
+```
+
+If you keep most “responsive switches” in `fixtures.less`, it becomes your control panel for layout behavior across devices—while the component/module LESS files stay focused on base styling.
