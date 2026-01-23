@@ -1,0 +1,234 @@
+---
+export interface Org {
+  name: string;
+  url?: string;
+  logo?: string;
+  sameAs?: string[];
+}
+
+type Breadcrumb = { name: string; url: string };
+type Alternate = { hrefLang: string; href: string };
+type RefLike = { name: string; url?: string; sameAs?: string[] };
+type ImageLink = { name: string; url: string; image?: string };
+type CollectionItem = {
+  type?: string;
+  "@type"?: string;
+  count?: number;
+} & ImageLink & {
+    description?: string;
+    about?: any;
+    deathDate?: string;
+    deathPlace?: string | { name: string; address?: string };
+  };
+
+export interface Props {
+  /* Page-level */
+  title?: string;
+  description?: string;
+  pathname?: string;
+  image?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  authorName?: string;
+  robots?: string;
+  breadcrumbs?: Breadcrumb[];
+  alternates?: Alternate[];
+  articleType?: string;
+  keywords?: string[];
+  references?: RefLike[];
+  interviewees?: RefLike[];
+
+  /* Related blocks */
+  issue?: {
+    issueNumber: string | number;
+    name?: string;
+    url?: string;
+    datePublished?: string;
+  };
+  review?: {
+    itemReviewed: { name: string; url?: string; image?: string };
+    reviewBody?: string;
+    authorName?: string;
+    rating?: {
+      ratingValue: number | string;
+      best?: number | string;
+      worst?: number | string;
+    };
+  };
+  collection?: { name: string; url?: string; items?: CollectionItem[] };
+  isCollectionPage?: boolean;
+  collectionItemType?: string;
+  aboutPage?: { name?: string; url?: string; description?: string };
+  exhibition?: {
+    name: string;
+    startDate: string;
+    endDate?: string;
+    url?: string;
+    location?: { name?: string; address?: string };
+    organizerName?: string;
+    image?: string;
+    description?: string;
+  };
+  faq?: { question: string; answer: string }[];
+  search?: { query?: string; urlTemplate: string };
+  similarByTheme?: ImageLink[];
+  moreByAuthor?: ImageLink[];
+  moreInIssue?: ImageLink[];
+  person?: {
+    name: string;
+    url?: string;
+    image?: string;
+    description?: string;
+    sameAs?: string[];
+    jobTitle?: string;
+    worksFor?: { name: string; url?: string };
+  };
+
+  /* Site-level (pass from a layout or config helper) */
+  siteUrl?: string;
+  siteTitle?: string;
+  siteDesc?: string;
+  twitter?: string;
+  organization?: Org;
+  defaultImage?: string;
+}
+
+import website from "@/data/website.json";
+
+/** ---------- GLOBAL BASE (required) ---------- **/
+const PUBLIC_BASE_URL = website.siteUrl;
+const publicBaseUrl = PUBLIC_BASE_URL.replace(/\/+$/, "");
+
+const {
+  title,
+  description,
+  pathname = "",
+  image,
+  publishedTime,
+  modifiedTime,
+  authorName,
+  robots = "index,follow",
+  breadcrumbs = [],
+  alternates = [],
+  issue,
+  review,
+  collection,
+  isCollectionPage = false,
+  collectionItemType,
+  aboutPage,
+  exhibition,
+  faq,
+  search,
+  articleType,
+  keywords = [],
+  references = [],
+  interviewees = [],
+  similarByTheme = [],
+  moreByAuthor = [],
+  moreInIssue = [],
+  person,
+
+  // site metadata (prefer passed props; fallback to Astro.site)
+  siteUrl: siteUrlProp = website.siteUrl,
+  siteTitle: siteTitleProp = website.siteTitle,
+  siteDesc: siteDescProp = website.siteDesc,
+  twitter = website.twitter,
+  organization = website.organization,
+  defaultImage = website.defaultImage,
+} = Astro.props as Props;
+
+const siteUrl = siteUrlProp ?? (Astro.site ? String(Astro.site) : "");
+const siteTitle = siteTitleProp ?? "Site";
+const siteDesc = siteDescProp ?? "";
+
+function abs(base: string, pathOrUrl?: string | null) {
+  if (!pathOrUrl) return null;
+  return /^https?:\/\//i.test(pathOrUrl)
+    ? pathOrUrl
+    : `${base}${pathOrUrl.startsWith("/") ? "" : "/"}${pathOrUrl}`;
+}
+
+const canonical = abs(publicBaseUrl, pathname) ?? undefined;
+const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+const metaDesc = (description || siteDesc || "").slice(0, 300);
+const ogImage = abs(publicBaseUrl, image || defaultImage || "") ?? undefined;
+
+// -------- size helpers --------
+function shortDate(d?: string | null) {
+  if (!d) return undefined;
+  const m = String(d).match(/^(\d{4}-\d{2}-\d{2})T(?:00:00:00(?:\.000)?)Z$/);
+  return m ? m[1] : d;
+}
+function capSameAs(arr?: string[], max = 5) {
+  return Array.isArray(arr) && arr.length ? arr.slice(0, max) : undefined;
+}
+function shortText(s?: string | null, max = 300) {
+  if (!s) return undefined;
+  const t = s.trim();
+  return t.length <= max ? t : `${t.slice(0, max - 1)}…`;
+}
+
+// -------- @id registry (dedupe) --------
+const idRegistry = new Map<string, string>();
+function makeId(prefix: string, key: string) {
+  const base = `${prefix}-${key
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")}`;
+  let id = `#${base || prefix}`;
+  let i = 2;
+  while ([...idRegistry.values()].includes(id)) id = `#${base}-${i++}`;
+  return id;
+}
+function getOrCreateId(prefix: string, key: string) {
+  const k = `${prefix}|${key}`;
+  if (!idRegistry.has(k)) idRegistry.set(k, makeId(prefix, key));
+  return idRegistry.get(k)!;
+}
+---
+
+<!-- Place this component inside your page/layout <head> -->
+<title>{metaTitle}</title>
+{metaDesc && <meta name="description" content={metaDesc} />}
+{canonical && <link rel="canonical" href={canonical} />}
+<meta name="robots" content={robots} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={articleType ? "article" : "website"} />
+<meta property="og:title" content={metaTitle} />
+{metaDesc && <meta property="og:description" content={metaDesc} />}
+{canonical && <meta property="og:url" content={canonical} />}
+{ogImage && <meta property="og:image" content={ogImage} />}
+<meta property="og:site_name" content={siteTitle} />
+{
+  publishedTime && (
+    <meta property="article:published_time" content={publishedTime} />
+  )
+}
+{
+  modifiedTime && (
+    <meta property="article:modified_time" content={modifiedTime} />
+  )
+}
+
+<!-- Twitter -->
+<meta
+  name="twitter:card"
+  content={ogImage ? "summary_large_image" : "summary"}
+/>
+{twitter && <meta name="twitter:site" content={twitter} />}
+<meta name="twitter:title" content={metaTitle} />
+{metaDesc && <meta name="twitter:description" content={metaDesc} />}
+{ogImage && <meta name="twitter:image" content={ogImage} />}
+
+<!-- Hreflang alternates -->
+{
+  alternates &&
+    alternates.map((a) => (
+      <link
+        rel="alternate"
+        hreflang={a.hrefLang}
+        href={abs(publicBaseUrl, a.href) ?? undefined}
+      />
+    ))
+}

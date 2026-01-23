@@ -1,0 +1,22 @@
+{
+  "name": "Organisation name",
+  "contactPoints": [
+    { "contactType": "customer support", "email": "email1@domain.com" },
+    { "contactType": "customer support", "email": "email2@domain.com" }
+  ],
+  "description": "Org description",
+  "url": "https://www.website.com/org",
+  "logo": "https://www.website.com/images/org-logo.jpg",
+  "inLanguage": "en-UK",
+  "email": "hello@org.domain",
+  "areaServed": ["Global"],
+  "address": {
+    "streetAddress": "Address line 1",
+    "addressLocality": "Address line 1",
+    "addressRegion": "Address line 3",
+    "postalCode": "Post code number",
+    "addressCountry": "Two digit country code"
+  },
+  "coverageStartTime": "Founding date in YYYY-MM-DD format",
+  "sameAs": ["https://twitter.com/@ORGHANDLE"]
+}

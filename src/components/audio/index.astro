@@ -1,0 +1,63 @@
+---
+import AudioPlayer from "./AudioPlayer.tsx";
+
+// Put these icons somewhere like: src/assets/icons/...
+import audioBackBlack from "@/assets/icons/audio-back-black.png";
+import audioForwardBlack from "@/assets/icons/audio-forward-black.png";
+import audioBackWhite from "@/assets/icons/audio-back-white.png";
+import audioForwardWhite from "@/assets/icons/audio-forward-white.png";
+
+import audioPauseWhiteTransparent from "@/assets/icons/audio-pause-white-transparent.png";
+import audioPauseBlackTransparent from "@/assets/icons/audio-pause-black-transparent.png";
+
+import audioPlayWhiteTransparent from "@/assets/icons/audio-play-white-transparent.png";
+import audioPlayBlackTransparent from "@/assets/icons/audio-play-black-transparent.png";
+
+import audioSoundBlackTransparant from "@/assets/icons/audio-sound-black-transparant.png";
+import audioSoundWhiteTransparant from "@/assets/icons/audio-sound-white-transparant.png";
+
+// If you have global styles already, remove this import and keep your existing pipeline.
+// import "./audio.css";
+
+type Props = {
+  audioUrl: string;
+  promptText?: string | null;
+  revealText?: string | null;
+  dark?: boolean;
+  isRevealed?: boolean;
+  style?: Record<string, any>;
+};
+
+const {
+  audioUrl,
+  promptText = null,
+  revealText = null,
+  dark = false,
+  isRevealed = false,
+  style = {},
+} = Astro.props;
+
+const icons = {
+  backBlack: audioBackBlack.src,
+  forwardBlack: audioForwardBlack.src,
+  backWhite: audioBackWhite.src,
+  forwardWhite: audioForwardWhite.src,
+  pauseWhiteTransparent: audioPauseWhiteTransparent.src,
+  pauseBlackTransparent: audioPauseBlackTransparent.src,
+  playWhiteTransparent: audioPlayWhiteTransparent.src,
+  playBlackTransparent: audioPlayBlackTransparent.src,
+  soundBlackTransparent: audioSoundBlackTransparant.src,
+  soundWhiteTransparent: audioSoundWhiteTransparant.src,
+};
+---
+
+<AudioPlayer
+  client:load
+  audioUrl={audioUrl}
+  promptText={promptText}
+  revealText={revealText}
+  dark={dark}
+  isRevealed={isRevealed}
+  style={style}
+  icons={icons}
+/>

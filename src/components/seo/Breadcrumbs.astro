@@ -1,0 +1,64 @@
+---
+/**
+ * BreadcrumbList JSON-LD
+ * - Pass a `trail` of { name, item? }.
+ * - The last crumb may omit `item`; it will default to the current page URL.
+ * - All URLs are resolved to absolute using your site's origin (Astro.site or the current request).
+ */
+export interface Crumb {
+  name: string;
+  /** Absolute or relative URL. Optional for the last crumb (defaults to current page URL). */
+  item?: string;
+}
+
+export interface Props {
+  trail: Crumb[];
+  /** Override the JSON-LD node @id (defaults to '<current-url>#breadcrumbs') */
+  id?: string;
+}
+
+const { trail = [], id } = Astro.props as Props;
+
+let data = {};
+if (!trail.length) {
+  // Nothing to render
+  data = {};
+} else {
+  const pageUrl = Astro.url; // URL object of current page
+  const siteOrigin = Astro.site
+    ? new URL(Astro.site.toString()).origin
+    : pageUrl.origin;
+
+  const currentHref = new URL(
+    pageUrl.pathname + pageUrl.search + pageUrl.hash,
+    siteOrigin,
+  ).toString();
+
+  const toAbs = (u?: string) =>
+    u ? new URL(u, siteOrigin).toString() : currentHref;
+
+  // Ensure last crumb points to the current page if not provided
+  const itemListElement = trail.map((c, i, arr) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: c.name,
+    item: toAbs(i === arr.length - 1 ? (c.item ?? currentHref) : c.item),
+  }));
+
+  data = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": id ?? `${currentHref}#breadcrumbs`,
+    itemListElement,
+  };
+}
+---
+
+{
+  trail.length ? (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(data).replace(/</g, "\\u003c")}
+    />
+  ) : null
+}

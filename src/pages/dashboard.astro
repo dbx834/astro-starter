@@ -1,0 +1,45 @@
+---
+export const prerender = false;
+
+import Layout from "@/layouts/main.astro";
+import db from "@/db/supabase";
+import cookieOptions from "@/lib/default-cookie-opts";
+
+const { cookies, redirect } = Astro;
+
+const accessToken = cookies.get("access-token");
+const refreshToken = cookies.get("refresh-token");
+
+if (!accessToken || !refreshToken) {
+  return redirect("/signin");
+}
+
+let session;
+try {
+  session = await db.auth.setSession({
+    refresh_token: refreshToken.value,
+    access_token: accessToken.value,
+  });
+  if (session.error) {
+    cookies.delete("access-token", cookieOptions);
+    cookies.delete("refresh-token", cookieOptions);
+    return redirect("/signin");
+  }
+} catch (error) {
+  cookies.delete("access-token", cookieOptions);
+  cookies.delete("refresh-token", cookieOptions);
+  return redirect("/signin");
+}
+
+const email = session.data.user?.email;
+---
+
+<Layout title="dashboard">
+  <div class="container">
+    <h1>Welcome {email}</h1>
+    <p>We are happy to see you here</p>
+    <form action="/api/auth/signout">
+      <button type="submit">Sign out</button>
+    </form>
+  </div>
+</Layout>

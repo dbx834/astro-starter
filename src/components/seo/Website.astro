@@ -1,0 +1,53 @@
+---
+/**
+ * WebSite JSON-LD
+ * Minimal, Google-friendly. Cross-link to your Organization via `publisherId`.
+ */
+export interface Props {
+  /** Canonical site root, e.g. 'https://example.com/' */
+  url: string;
+  /** Site name shown in search features */
+  name: string;
+  /** Stable @id for your Organization/NewsMediaOrganization node (optional but recommended) */
+  publisherId?: string;
+  /** Override the @id for this WebSite node (defaults to `<url>#website`) */
+  id?: string;
+  /** BCP-47 language tag for the site (e.g. 'en', 'en-IN'); optional */
+  inLanguage?: string;
+  /** Optional alternateName for the site */
+  alternateName?: string;
+  /** Optional social profiles */
+  sameAs?: string[];
+}
+
+const {
+  url,
+  name,
+  publisherId,
+  id,
+  inLanguage = "en",
+  alternateName,
+  sameAs = [],
+} = Astro.props as Props;
+
+// Normalize URL (strip trailing slashes)
+const root = url.replace(/\/+$/, "");
+
+// Build JSON-LD
+const data = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": id ?? `${root}/#website`,
+  url: `${root}/`,
+  name,
+  ...(alternateName ? { alternateName } : {}),
+  ...(inLanguage ? { inLanguage } : {}),
+  ...(publisherId ? { publisher: { "@id": publisherId } } : {}),
+  ...(sameAs.length ? { sameAs } : {}),
+};
+
+// Safe-serialize to avoid accidentally closing the script tag
+const json = JSON.stringify(data).replace(/</g, "\\u003c");
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

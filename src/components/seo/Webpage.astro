@@ -1,0 +1,170 @@
+---
+/**
+ * JsonLd.astro — extensive WebPage JSON-LD
+ *
+ * Props (all optional unless noted)
+ * - siteUrl            (required) absolute origin, e.g. "https://example.com"
+ * - siteName           (required) website name
+ * - urlPath            (required) path for this page, e.g. "/articles/hello"
+ * - pageTitle          (required) visible page title
+ * - description        short meta description
+ * - inLanguage         BCP-47 code, e.g. "en", "en-IN"
+ * - pageType           schema subtype for WebPage, e.g. "WebPage", "CollectionPage", "AboutPage"
+ * - image              absolute or relative URL of primary image
+ * - author             { name, url? }
+ * - organization       { name (required), url?, logo?, sameAs?: string[] }
+ * - datePublished      ISO string (e.g., "2025-10-16")
+ * - dateModified       ISO string
+ * - breadcrumbs        [{ name, url }] absolute or relative; order matters (home → current)
+ * - searchTarget       URL template for site search, e.g. "/search?q={search_term_string}"
+ * - speakableSelectors array of CSS selectors for speakable sections (optional)
+ */
+
+const {
+  siteUrl = "https://auroville.today",
+  siteName = "Auroville Today",
+  urlPath,
+  pageTitle,
+  description = "",
+  inLanguage = "en",
+  pageType = "WebPage",
+  image,
+  author,
+  organization = {
+    name: "Auroville Today",
+    url: "https://auroville.today",
+    logo: "/logos/logo.png",
+    sameAs: ["https://twitter.com/aurovilletoday"],
+  },
+  datePublished,
+  dateModified,
+  breadcrumbs = [],
+  searchTarget = "/search?q={search_term_string}",
+  speakableSelectors = [],
+} = Astro.props;
+
+// ---------- helpers ----------
+const trimSlash = (s = "") => s.replace(/\/+$/, "");
+const ensureAbs = (u) => {
+  if (!u) return undefined;
+  if (/^https?:\/\//i.test(u)) return u;
+  return trimSlash(siteUrl) + (u.startsWith("/") ? u : "/" + u);
+};
+const array = (x) => (Array.isArray(x) ? x : x ? [x] : []);
+const defined = (v) => v !== undefined && v !== null && v !== "";
+
+/** remove keys that are undefined/empty; recurse */
+const prune = (obj) => {
+  if (Array.isArray(obj)) {
+    const a = obj.map(prune).filter(defined);
+    return a.length ? a : undefined;
+  }
+  if (obj && typeof obj === "object") {
+    const out = {};
+    for (const [k, v] of Object.entries(obj)) {
+      const pv = prune(v);
+      if (defined(pv)) out[k] = pv;
+    }
+    return Object.keys(out).length ? out : undefined;
+  }
+  return defined(obj) ? obj : undefined;
+};
+
+// ---------- computed ----------
+if (!siteUrl || !siteName || !urlPath || !pageTitle) {
+  console.warn(
+    "[JsonLd.astro] Missing one of required props: siteUrl, siteName, urlPath, pageTitle",
+  );
+}
+
+const pageUrl = ensureAbs(urlPath);
+const imgUrl = ensureAbs(image);
+
+const org = organization
+  ? {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": ensureAbs("/#org"),
+      name: organization.name,
+      url: organization.url ? ensureAbs(organization.url) : ensureAbs("/"),
+      logo: organization.logo
+        ? {
+            "@type": "ImageObject",
+            url: ensureAbs(organization.logo),
+          }
+        : undefined,
+      sameAs:
+        organization.sameAs && organization.sameAs.length
+          ? organization.sameAs
+          : undefined,
+    }
+  : undefined;
+
+const website = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": ensureAbs("/#website"),
+  url: ensureAbs("/"),
+  name: siteName,
+  inLanguage: inLanguage,
+  publisher: org ? { "@id": org["@id"] } : undefined,
+};
+
+const webPage = {
+  "@context": "https://schema.org",
+  "@type": pageType, // e.g. "WebPage", "CollectionPage", "AboutPage"
+  "@id": pageUrl + "#webpage",
+  url: pageUrl,
+  name: pageTitle,
+  isPartOf: { "@id": website["@id"] },
+  inLanguage: inLanguage,
+  description: description,
+  datePublished: datePublished,
+  dateModified: dateModified || datePublished,
+  primaryImageOfPage: imgUrl
+    ? {
+        "@type": "ImageObject",
+        url: imgUrl,
+      }
+    : undefined,
+  publisher: org ? { "@id": org["@id"] } : undefined,
+  author: author?.name
+    ? {
+        "@type": "Person",
+        name: author.name,
+        url: author.url ? ensureAbs(author.url) : undefined,
+      }
+    : undefined,
+  // Optional: speakable (some consumers support selectors)
+  speakable: speakableSelectors.length
+    ? {
+        "@type": "SpeakableSpecification",
+        cssSelector: speakableSelectors,
+      }
+    : undefined,
+};
+
+const breadcrumb = breadcrumbs.length
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs.map((b, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: b.name,
+        item: ensureAbs(b.url),
+      })),
+    }
+  : undefined;
+
+// Build a top-level array (JSON-LD 1.0 friendly; avoids @graph)
+const graph = prune([org, website, webPage, breadcrumb]);
+
+// console.log(graph)
+---
+
+{
+  graph && (
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} />
+  )
+}

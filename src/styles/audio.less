@@ -1,0 +1,397 @@
+html#meta {
+  .audio {
+    position: relative;
+  }
+
+  .audio .overlay {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .audio .icon {
+    width: 28px;
+    height: 28px;
+    display: block;
+  }
+
+  .audio .audio-player {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .audio .time-bar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .audio input[type="range"] {
+    width: 100%;
+  }
+
+  .audio .control-bar {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .audio button {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+
+
+  /* .spinner {
+      &.alt {
+        & .ant-spin-dot-item {
+          background-color: #fff;
+        }
+      }
+    }
+
+    .audio {
+      position: relative;
+
+      & .spinner {
+        & .ant-spin-dot-item {
+          background-color: var(--text-dark);
+        }
+      }
+
+      & .overlay {
+        // position: absolute;
+        top: 0px;
+        left: 0px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        & .icon.gatsby-image-wrapper {
+          height: 2.5rem !important;
+          width: 2.5rem !important;
+          min-height: unset !important;
+        }
+
+        & p {
+          margin-left: var(--1pt);
+          flex: 1;
+        }
+      }
+
+      & .time-bar {
+        display: flex;
+        margin-bottom: var(--1pt);
+
+        & time {
+          width: 16%;
+
+          &:nth-child(1) {
+            text-align: left;
+            margin-right: var(--P5pt);
+          }
+          &:nth-child(3) {
+            margin-left: var(--P5pt);
+            text-align: right;
+          }
+
+          &.alt {
+            & span {
+              color: var(--text-light);
+            }
+          }
+        }
+
+        & .spinner {
+          width: 16%;
+          display: flex;
+
+          & .ant-spin {
+            margin-left: var(--P5pt);
+            align-self: center;
+
+            &:nth-child(1) {
+              justify-self: flex-start;
+              margin-right: var(--P5pt);
+            }
+            &:nth-child(3) {
+              justify-self: flex-end;
+              margin-left: var(--P5pt);
+            }
+          }
+        }
+
+        & input {
+          flex: 1;
+        }
+      }
+
+      & .audio-player {
+        input[type='range'] {
+        // Hides the slider so that custom slider can be made
+        -webkit-appearance: none;
+        // Specific width is required for Firefox.
+        width: 100%;
+        // Otherwise white in Chrome
+          background: transparent;
+        }
+
+        input[type='range']::-webkit-slider-thumb {
+          -webkit-appearance: none;
+        }
+
+        input[type='range']:focus {
+          // Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though.
+          outline: none;
+        }
+
+        input[type='range']::-ms-track {
+          width: 100%;
+          cursor: pointer;
+
+          // Hides the slider so custom styles can be added
+          background: transparent;
+          border-color: transparent;
+          color: transparent;
+        }
+
+        // Special styling for WebKit/Blink
+        input[type='range']::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          height: var(--1pt);
+          width: 3px;
+          background: var(--text-dark);
+          cursor: pointer;
+          margin-top: calc(-1 * calc(var(--1pt) * 0.5));
+          border: unset;
+          border-radius: unset;
+        }
+        input[type='range']::-webkit-slider-thumb {
+          background: #ffffff;
+        }
+
+        // All the same stuff for Firefox
+        input[type='range']::-moz-range-thumb {
+          height: var(--1pt);
+          width: 3px;
+          background: var(--text-dark);
+          cursor: pointer;
+          border: unset;
+          border-radius: unset;
+        }
+        input[type='range'].alt::-moz-range-thumb {
+          background: #ffffff;
+        }
+
+        // All the same stuff for IE
+        input[type='range']::-ms-thumb {
+          height: var(--2pt);
+          width: 3px;
+          background: var(--text-dark);
+          cursor: pointer;
+          border: unset;
+          border-radius: unset;
+        }
+        input[type='range'].alt::-ms-thumb {
+          background: #ffffff;
+        }
+        input[type='range']::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 1px;
+          cursor: pointer;
+          background: var(--text-dark);
+          border-color: transparent;
+          color: transparent;
+        }
+        input[type='range'].alt::-webkit-slider-runnable-track {
+          background: #fff;
+        }
+        input[type='range']:focus::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 1px;
+          cursor: pointer;
+          background: var(--text-dark);
+          border-color: transparent;
+          color: transparent;
+        }
+        input[type='range'].alt:focus::-webkit-slider-runnable-track {
+          background: #fff;
+        }
+        input[type='range']::-moz-range-track {
+          width: 100%;
+          height: 1px;
+          cursor: pointer;
+          background: var(--text-dark);
+          border-color: transparent;
+          color: transparent;
+        }
+        input[type='range'].alt::-moz-range-track {
+          background: #fff;
+        }
+        input[type='range']::-ms-track {
+          width: 100%;
+          height: 1px;
+          cursor: pointer;
+          background: var(--text-dark);
+          border-color: transparent;
+          color: transparent;
+        }
+        input[type='range'].alt::-ms-track {
+          background: #fff;
+        }
+
+        input[type='range']::-ms-fill-lower {
+          background: var(--text-dark);
+        }
+        input[type='range']:focus::-ms-fill-lower {
+          background: var(--text-dark);
+        }
+        input[type='range']::-ms-fill-upper {
+          background: var(--text-dark);
+        }
+        input[type='range']:focus::-ms-fill-upper {
+          background: var(--text-dark);
+        }
+        input[type='range'].alt::-ms-fill-lower {
+          background: #fff;
+        }
+        input[type='range'].alt:focus::-ms-fill-lower {
+          background: #fff;
+        }
+        input[type='range'].alt::-ms-fill-upper {
+          background: #fff;
+        }
+        input[type='range'].alt:focus::-ms-fill-upper {
+          background: #fff;
+        }
+
+        & .control-bar {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          & button {
+            padding: unset;
+            padding-inline: unset;
+            box-shadow: unset;
+            border: unset;
+            background: transparent;
+            height: calc(var(--2pt) * 0.9);
+            width: calc(var(--2pt) * 0.9);
+
+            &:nth-child(2) {
+              margin-left: var(--1P5pt);
+              margin-right: var(--1P5pt);
+            }
+
+            & .gatsby-image-wrapper {
+              height: 100%;
+              width: 100%;
+
+              & div {
+                height: 100%;
+                width: 100%;
+              }
+
+              & img {
+                height: 100%;
+                width: 100%;
+                object-fit: contain !important;
+              }
+            }
+          }
+        }
+      }
+    } */
+
+  body#meta {
+    // Larger screens
+    &.x-w-xxl,
+    &.x-w-xl,
+    &.x-w-lg {
+    }
+
+    // Small screens
+    &.x-w-md,
+    &.x-w-sm,
+    &.x-w-xs {
+    }
+
+    // iPad, landscape mode
+    &.x-w-md.x-is-landscape {
+    }
+
+    // iPad, portrait mode
+    &.x-w-md.x-is-portrait {
+    }
+
+    // Extra-extra-large screen width, min-width is 1600px
+    &.x-w-xxl {
+    }
+
+    // Extra-large screen width, min-width is 1201px and max-width is 1599px
+    &.x-w-xl {
+    }
+
+    // Large screen width, min-width is 993px and max-width is 1200px
+    &.x-w-lg {
+    }
+
+    // Medium screen width, min-width is 769px and max-width is 992px
+    &.x-w-md {
+    }
+
+    // Small screen width, min-width is 577px and max-width is 768px
+    &.x-w-sm {
+    }
+
+    // Extra-small screen width, max-width is 576px
+    &.x-w-xs {
+    }
+
+    // Extra-extra-large screen height, min-height is 1600px
+    &.x-h-xxl {
+    }
+
+    // Extra-large screen height, min-height is 1201px and max-height is 1599px
+    &.x-h-xl {
+    }
+
+    // Large screen height, min-height is 993px and max-height is 1200px
+    &.x-h-lg {
+    }
+
+    // Medium screen height, min-height is 769px and max-height is 992px
+    &.x-h-md {
+    }
+
+    // Small screen height, min-height is 577px and max-height is 768px
+    &.x-h-sm {
+    }
+
+    // Extra-small screen height, max-height is 576px
+    &.x-h-xs {
+    }
+
+    // Screen orientation is portrait
+    &.x-is-portrait {
+    }
+
+    // Screen orientation is landscape
+    &.x-is-landscape {
+    }
+
+    // Screen type is retina
+    &.x-is-retina {
+    }
+
+    // Is client and not server
+    &.x-is-client {
+    }
+  }
+}

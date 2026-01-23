@@ -1,8 +1,13 @@
 ---
 import Layout from "@/layouts/main.astro";
 
+import { isString } from "@/lib/utils";
+import BasicSEO from "@/components/seo/Basic.astro";
+import BreadcrumbsSEO from "@/components/seo/Breadcrumbs.astro";
+
 import Content from "@/components/article/Content.astro";
 import Img from "@/components/img/Img.astro";
+import Breadcrumbs from "@/components/breadcrumbs/index.astro";
 
 import { getEntry } from "astro:content";
 import { getCollectionCached as getCollection } from "@/lib/build-cache";
@@ -25,15 +30,41 @@ export async function getStaticPaths() {
 const { data: node } = Astro.props || {};
 
 const { title = "", text, cover } = node ?? {};
+
+// ----------------------------------------------------------------------------- SEO Data
+const pathname = Astro.url?.pathname ?? "/";
+
+const basicSEOData = {
+  title: isString(title) ? title : "Article",
+  description: "About the article",
+  pathname: pathname,
+  image: "/images/launch.jpg",
+};
+
+const breadcrumbs = [
+  { name: "Homepage", url: "/" },
+  { name: "Articles", url: "/articles" },
+  { name: isString(title) ? title : "Article", url: pathname },
+].filter((b) => isString(b.name) && isString(b.url));
+
+const breadcrumbsSEOData = {
+  id: pathname + "#breadcrumbs",
+  trail: breadcrumbs,
+};
 ---
 
 <Layout>
+  <BasicSEO {...basicSEOData} slot="seo" />
+  <BreadcrumbsSEO {...breadcrumbsSEOData} slot="seo" />
+
   <div class="container">
     <div class="grid PX240-AUTO">
       <div>
         <Img attachment={cover[0]} />
       </div>
       <div>
+        <Breadcrumbs crumbs={breadcrumbs} />
+        <br />
         <h1>{title}</h1>
         <Content node={node} />
       </div>

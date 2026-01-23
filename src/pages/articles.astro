@@ -1,6 +1,12 @@
 ---
 import Layout from "@/layouts/main.astro";
 
+import { isString } from "@/lib/utils";
+import BasicSEO from "@/components/seo/Basic.astro";
+import BreadcrumbsSEO from "@/components/seo/Breadcrumbs.astro";
+
+import Breadcrumbs from "@/components/breadcrumbs/index.astro";
+
 import { getCollectionCached as getCollection } from "@/lib/build-cache";
 
 const allArticlesNodes = await getCollection("articles");
@@ -13,10 +19,35 @@ const allArticles = allArticlesNodes.map(({ data = {} }) => {
     cover,
   };
 });
+
+// ----------------------------------------------------------------------------- SEO Data
+const pathname = Astro.url?.pathname ?? "/";
+
+const basicSEOData = {
+  title: "Articles",
+  description: "About the articles index",
+  pathname: pathname,
+  image: "/images/launch.jpg",
+};
+
+const breadcrumbs = [
+  { name: "Homepage", url: "/" },
+  { name: "Articles", url: "/articles" },
+].filter((b) => isString(b.name) && isString(b.url));
+
+const breadcrumbsSEOData = {
+  id: pathname + "#breadcrumbs",
+  trail: breadcrumbs,
+};
 ---
 
 <Layout>
+  <BasicSEO {...basicSEOData} slot="seo" />
+  <BreadcrumbsSEO {...breadcrumbsSEOData} slot="seo" />
+
   <div class="container">
+    <Breadcrumbs crumbs={breadcrumbs} />
+    <br />
     <h1>Index of articles:</h1>
     <ul>
       {

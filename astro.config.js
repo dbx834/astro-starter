@@ -44,6 +44,8 @@ import favicons from "astro-favicons";
 
 import critters from "astro-critters";
 
+import netlify from "@astrojs/netlify";
+
 // Env flags
 const isProd = process.env.NODE_ENV === "production";
 const isDev = !isProd;
@@ -52,8 +54,10 @@ const isDev = !isProd;
 const genOg = process.env.GEN_OG === "1";
 
 export default defineConfig({
-  site: "https://auroville.today/",
+  site: "https://www.website.com/",
   prefetch: true,
+  output: "static",
+  adapter: netlify(),
   // compressHTML: true, // Handled by @playform/compress
 
   integrations: [

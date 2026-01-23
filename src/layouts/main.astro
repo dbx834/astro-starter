@@ -6,16 +6,55 @@ import Footer from "@/components/footer/Footer.astro";
 import Header from "@/components/header/Header.astro";
 
 import { Head } from "astro-capo";
+import OrganisationSEO from "@/components/seo/Organisation.astro";
+import WebsiteSEO from "@/components/seo/Website.astro";
+import SiteNavSEO from "@/components/seo/SiteNavigationElement.astro";
+
+import GoogleAnalytics from "@/components/google-analytics/index.astro";
 
 import "../styles/index.less";
 
 await prewarmCollections();
+
+// ----------------------------------------------------------------------------- SEO Data
+import website from "@/data/website.json";
+import org from "@/data/org.json";
+
+const websiteSEOData = {
+  url: website.siteUrl,
+  id: `${website.siteUrl}/#website`,
+  name: website.siteTitle,
+  sameAs: [
+    "https://www.instagram.com/[Project]/",
+    "https://www.facebook.com/[Project]/",
+  ],
+  inLanguage: "en-UK",
+};
+
+const siteNavSEOData = {
+  id: `${website.siteUrl}/#website`,
+  name: "Primary navigation",
+  items: [
+    {
+      label: "Articles",
+      href: "/articles/",
+      children: [{ href: "/articles/top-articles", label: "Top articles" }],
+    },
+  ],
+};
+
+const organisationSEOData = org;
 ---
 
 <html lang="en" id="meta" class="t-0">
   <Head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <WebsiteSEO {...websiteSEOData} />
+    <OrganisationSEO {...organisationSEOData} />
+    <SiteNavSEO {...siteNavSEOData} />
+    <slot name="seo" />
+    <GoogleAnalytics />
   </Head>
   <body id="meta">
     <div id="layout">

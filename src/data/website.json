@@ -1,0 +1,13 @@
+{
+  "siteUrl": "https://www.website.com",
+  "siteTitle": "Website title",
+  "siteDesc": "Default website description",
+  "twitter": "https://twitter.com/project-twitter",
+  "organization": {
+    "name": "Organisation name",
+    "url": "https://www.organisation.org",
+    "logo": "/images/organisation-logo.png",
+    "sameAs": ["https://twitter.com/org-twitter"]
+  },
+  "defaultImage": "/images/launch.jpg"
+}

@@ -1,0 +1,26 @@
+---
+import VideoPlayer from "./VideoPlayer.tsx";
+
+type Props = {
+  url: string;
+  aspectRatio?: number; // width / height (e.g. 16/9 ≈ 1.777)
+  style?: Record<string, any>;
+  light?: boolean;
+  className?: string;
+};
+
+const {
+  url,
+  aspectRatio = 1.6,
+  style = {},
+  light = false,
+  className = "",
+} = Astro.props;
+---
+
+<div
+  class={`video ${className}`}
+  style={{ "--aspect-ratio": String(aspectRatio), ...style }}
+>
+  <VideoPlayer client:load url={url} light={light} />
+</div>

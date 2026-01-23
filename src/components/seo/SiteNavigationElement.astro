@@ -1,0 +1,99 @@
+---
+/**
+ * SiteNavigationElement JSON-LD
+ * - Accepts a nested menu structure and renders a hierarchical `hasPart` tree.
+ * - Links to your WebSite node via `websiteId` (recommended).
+ */
+
+export interface MenuItem {
+  /** Visible label */
+  label: string;
+  /** HREF (absolute or relative). Optional for headings */
+  href?: string;
+  /** Optional children */
+  children?: MenuItem[];
+  /** Optional description for the item */
+  description?: string;
+  /** Optional explicit @id for this item */
+  id?: string;
+}
+
+export interface Props {
+  /** Top-level menu items */
+  items: MenuItem[];
+  /** Human name for this nav block, e.g. 'Primary navigation' */
+  name?: string;
+  /** Stable @id for this JSON-LD node (defaults to '<origin>#nav') */
+  id?: string;
+  /** Link back to your WebSite node, e.g. 'https://example.com/#website' */
+  websiteId?: string;
+  /** BCP-47 language tag */
+  inLanguage?: string;
+  /** Force a specific site origin (falls back to Astro.site or current request) */
+  baseUrl?: string;
+}
+
+const {
+  items = [],
+  name = "Primary navigation",
+  id,
+  websiteId,
+  inLanguage = "en",
+  baseUrl,
+} = Astro.props as Props;
+
+let data = null;
+
+if (items.length) {
+  const pageUrl = Astro.url;
+  const origin = baseUrl
+    ? new URL(baseUrl).origin
+    : Astro.site
+      ? new URL(Astro.site.toString()).origin
+      : pageUrl.origin;
+
+  const toAbs = (u?: string) => (u ? new URL(u, origin).toString() : undefined);
+  const slug = (s: string) =>
+    s
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
+  const rootId = id ?? `${origin}/#nav`;
+
+  const build = (node: MenuItem, trail: string[]): Record<string, any> => {
+    const fallbackId = `${origin}/#nav-${trail.map(slug).join("-")}`;
+    const out: Record<string, any> = {
+      "@type": "SiteNavigationElement",
+      "@id": node.id ?? fallbackId,
+      name: node.label,
+    };
+    const abs = toAbs(node.href);
+    if (abs) out.url = abs;
+    if (node.description) out.description = node.description;
+    if (node.children?.length) {
+      out.hasPart = node.children.map((child) =>
+        build(child, [...trail, child.label]),
+      );
+    }
+    return out;
+  };
+
+  const tree = items.map((it) => build(it, [it.label]));
+
+  data = {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "@id": rootId,
+    name,
+    inLanguage,
+    ...(websiteId ? { isPartOf: { "@id": websiteId } } : {}),
+    hasPart: tree,
+  };
+}
+---
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(data).replace(/</g, "\\u003c")}
+/>

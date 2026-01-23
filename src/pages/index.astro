@@ -1,8 +1,18 @@
 ---
 import Layout from "@/layouts/main.astro";
+
+import BasicSEO from "@/components/seo/Basic.astro";
+
+const basicSeoData = {
+  title: "Homepage",
+  description: "About the website",
+  pathname: "/",
+  image: "/images/launch.jpg",
+};
 ---
 
 <Layout>
+  <BasicSEO {...basicSeoData} slot="seo" />
   <div class="container">
     <h1>Homepage</h1>
   </div>

@@ -1,0 +1,363 @@
+---
+/**
+ * Article.astro — JSON-LD 1.0 for a single NewsArticle (with mentions)
+ *
+ * Minimal required props:
+ * - siteUrl:   absolute origin, e.g. "https://example.com"
+ * - urlPath:   path of this article, e.g. "/news/library-opens"
+ * - headline:  article title
+ *
+ * Optional enrichment (graceful fallbacks):
+ * - description            : string
+ * - inLanguage             : string (default "en")
+ * - image                  : string (abs or relative)
+ * - images                 : string[] (additional images)
+ * - thumbnailUrl           : string
+ * - datePublished          : ISO string
+ * - dateModified           : ISO string (falls back to datePublished)
+ * - author                 : { name (req), url?, type?: "Person"|"Organization" }
+ * - publisher              : { name (req), url?, logo?, url? }
+ * - articleSection         : string
+ * - articleBody            : string
+ * - keywords               : string | string[] | KeywordObj[]
+ *      KeywordObj = { title: string; slug?: string; numberOfArticles?: number }
+ * - mainEntityOfPage       : string | { "@type"?: "WebPage", "@id"?: string, "url"?: string }
+ * - isAccessibleForFree    : boolean (default true)
+ * - wordCount              : number
+ * - identifier             : string | number | { "@type"?: "PropertyValue", name?: string, value?: string }
+ *
+ * Mentions (new):
+ * - mentionsPeople         : Array<string | { slug?: string; title?: string; name?: string }>
+ *      Accepts your array shape: [{ slug, title }, ...]
+ *
+ * Optional switches for extra JSON-LD blocks (each as a single object/script):
+ * - emitKeywordSet         : boolean (default false) — outputs a DefinedTermSet registry of keywords
+ * - emitKeywordList        : boolean (default true)  — outputs an ItemList of keyword pages
+ * - emitMentionsList       : boolean (default true)  — outputs an ItemList of mentioned people
+ */
+
+import website from "@/data/website.json";
+import org from "@/data/org.json";
+
+import {
+  trimSlash,
+  ensureAbs,
+  defined,
+  prune,
+  toArray,
+  dedupe,
+  slugify,
+} from "@/lib/utils";
+
+const {
+  // Required
+  siteUrl = website.siteUrl,
+  siteName = website.siteTitle,
+  urlPath,
+  headline,
+
+  // Optional content
+  description = "",
+  inLanguage = "en",
+  image,
+  images = [],
+  thumbnailUrl,
+  datePublished,
+  dateModified,
+  author,
+  publisher = {
+    name: org.name,
+    url: org.url,
+    logo: org.logo,
+    sameAs: org.sameAs,
+  },
+  articleSection,
+  articleBody,
+  keywords,
+  mainEntityOfPage,
+  isAccessibleForFree = true,
+  wordCount,
+  identifier,
+
+  // Mentions
+  mentionsPeople = [],
+
+  // Optional extra blocks
+  emitKeywordSet = false,
+  emitKeywordList = true,
+  emitMentionsList = true,
+} = Astro.props;
+
+// ---------- URL + media ----------
+const pageUrl = ensureAbs(urlPath);
+const imgList = dedupe(
+  [...toArray(image), ...toArray(images)].map(ensureAbs).filter(defined),
+);
+
+// ---------- author/publisher ----------
+const authorObj = author?.name
+  ? {
+      "@type": author?.type === "Organization" ? "Organization" : "Person",
+      name: author.name,
+      url: author.url ? ensureAbs(author.url) : undefined,
+    }
+  : {
+      "@type": "Person",
+      name: `${org.name} Editors`,
+    };
+
+const publisherObj = publisher?.name
+  ? {
+      "@type": "Organization",
+      name: publisher.name,
+      url: publisher.url ? ensureAbs(publisher.url) : ensureAbs("/"),
+      logo: publisher.logo
+        ? {
+            "@type": "ImageObject",
+            url: ensureAbs(publisher.logo),
+          }
+        : undefined,
+    }
+  : undefined;
+
+// ---------- mainEntityOfPage ----------
+const mainEntity = (() => {
+  if (!defined(mainEntityOfPage)) return undefined;
+  if (typeof mainEntityOfPage === "string") {
+    const u = ensureAbs(mainEntityOfPage);
+    return { "@type": "WebPage", "@id": u, url: u };
+  }
+  const idOrUrl = mainEntityOfPage["@id"] || mainEntityOfPage.url;
+  return prune({
+    "@type": mainEntityOfPage["@type"] || "WebPage",
+    "@id": idOrUrl ? ensureAbs(idOrUrl) : undefined,
+    url: mainEntityOfPage.url
+      ? ensureAbs(mainEntityOfPage.url)
+      : idOrUrl
+        ? ensureAbs(idOrUrl)
+        : pageUrl,
+  });
+})();
+
+// ---------- keywords handling (CSV + rich "about") ----------
+/** Normalize incoming keywords into a uniform array of objects */
+const keywordObjs = (() => {
+  if (!defined(keywords)) return [];
+  if (Array.isArray(keywords)) {
+    return keywords
+      .map((k) => {
+        if (typeof k === "string") return { title: k };
+        return {
+          title: (k?.title ?? "").trim(),
+          slug: k?.slug,
+          numberOfArticles: Number(k?.numberOfArticles ?? 0),
+        };
+      })
+      .filter((k) => k.title);
+  }
+  // if keywords is a CSV string
+  return String(keywords)
+    .split(",")
+    .map((s) => ({ title: s.trim() }))
+    .filter((k) => k.title);
+})();
+
+/** CSV string for NewsArticle.keywords */
+const keywordsCSV = keywordObjs.map((k) => k.title).join(", ");
+
+/** Rich "about" Things (kept optional; you can enable if desired) */
+const keywordThings = keywordObjs
+  .map((k) =>
+    prune({
+      "@type": "Thing",
+      name: k.title,
+      url: k.slug ? ensureAbs(k.slug) : undefined,
+      alternateName: k.title.includes("/")
+        ? k.title
+            .split("/")
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : undefined,
+      additionalProperty: Number.isFinite(k.numberOfArticles)
+        ? {
+            "@type": "PropertyValue",
+            name: "numberOfArticles",
+            value: Number(k.numberOfArticles || 0),
+          }
+        : undefined,
+    }),
+  )
+  .filter(Boolean);
+
+// ---------- mentions: normalize → Person nodes + refs ----------
+const mentionObjs = toArray(mentionsPeople)
+  .map((p) => {
+    if (typeof p === "string") return { title: p };
+    // support both title & name keys
+    const name = (p?.title ?? p?.name ?? "").toString().trim();
+    const slug =
+      p?.slug ?? (name ? `/contributors/${slugify(name)}` : undefined);
+    return { name, slug };
+  })
+  .filter((p) => p.name);
+
+const mentionedPersons = mentionObjs
+  .map((p) =>
+    prune({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": ensureAbs(`${p.slug}#page`),
+      name: p.name,
+      url: ensureAbs(p.slug),
+    }),
+  )
+  .filter(Boolean);
+
+const mentionsRefs = mentionedPersons.map((n) => {
+  const r = { "@id": n["@id"], "@type": "Person", url: n.slug };
+  return r;
+});
+
+// ---------- build NewsArticle ----------
+const newsArticle = prune({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "@id": pageUrl + "#article",
+  mainEntityOfPage: mainEntity || pageUrl,
+  headline: headline,
+  description: description,
+  inLanguage: inLanguage,
+  url: pageUrl,
+  image: imgList.length ? imgList : undefined,
+  thumbnailUrl: ensureAbs(thumbnailUrl),
+  datePublished: datePublished,
+  dateModified: dateModified || datePublished,
+  author: authorObj,
+  publisher: publisherObj,
+  articleSection: articleSection,
+  articleBody: articleBody,
+  keywords: keywordsCSV || undefined,
+  // "about": keywordThings.length ? keywordThings : undefined, // optionally enable
+  mentions: mentionsRefs.length ? mentionsRefs : undefined,
+  isAccessibleForFree: isAccessibleForFree,
+  wordCount: Number.isFinite(Number(wordCount)) ? Number(wordCount) : undefined,
+  identifier:
+    typeof identifier === "object" && identifier !== null
+      ? identifier
+      : defined(identifier)
+        ? { "@type": "PropertyValue", name: "id", value: String(identifier) }
+        : undefined,
+});
+
+// ---------- optional: publish a DefinedTermSet registry ----------
+const keywordSet = emitKeywordSet
+  ? prune({
+      "@context": "https://schema.org",
+      "@type": "DefinedTermSet",
+      "@id": ensureAbs("/#keyword-set"),
+      name: "Keyword Tags",
+      hasDefinedTerm: keywordObjs
+        .map((k) =>
+          prune({
+            "@type": "DefinedTerm",
+            name: k.title,
+            termCode:
+              String(k.slug || "").replace(/^\/keyword\//, "") || undefined,
+            url: k.slug ? ensureAbs(k.slug) : undefined,
+            description: Number.isFinite(k.numberOfArticles)
+              ? `${k.numberOfArticles} related articles`
+              : undefined,
+            inDefinedTermSet: ensureAbs("/#keyword-set"),
+          }),
+        )
+        .filter(Boolean),
+    })
+  : undefined;
+
+// ---------- optional: publish an ItemList of keyword pages ----------
+const keywordList = emitKeywordList
+  ? prune({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `Keywords for "${headline}"`,
+      "@id": pageUrl + "#keywords",
+      numberOfItems: keywordObjs.length,
+      itemListElement: keywordObjs
+        .map((k, i) =>
+          prune({
+            "@type": "ListItem",
+            position: i + 1,
+            item: prune({
+              "@type": "Thing",
+              name: k.title,
+              url: k.slug ? ensureAbs(k.slug) : undefined,
+            }),
+          }),
+        )
+        .filter(Boolean),
+    })
+  : undefined;
+
+// ---------- optional: publish an ItemList of mentioned people ----------
+const mentionsList = emitMentionsList
+  ? prune({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `People mentioned in "${headline}"`,
+      "@id": pageUrl + "#mentions",
+      numberOfItems: mentionedPersons.length,
+      itemListElement: mentionedPersons
+        .map((p, i) =>
+          prune({
+            "@type": "ListItem",
+            position: i + 1,
+            item: { "@id": p["@id"] },
+          }),
+        )
+        .filter(Boolean),
+    })
+  : undefined;
+
+// ---------- dev guard ----------
+if (!siteUrl || !urlPath || !headline) {
+  console.warn(
+    "[NewsArticleLd] Missing one of required props: siteUrl, urlPath, headline",
+  );
+}
+---
+
+{
+  newsArticle && (
+    <script type="application/ld+json" set:html={JSON.stringify(newsArticle)} />
+  )
+}
+
+{
+  mentionedPersons?.length > 0 && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(mentionedPersons)}
+    />
+  )
+}
+
+{
+  keywordSet?.hasDefinedTerm?.length && (
+    <script type="application/ld+json" set:html={JSON.stringify(keywordSet)} />
+  )
+}
+
+{
+  keywordList?.itemListElement?.length && (
+    <script type="application/ld+json" set:html={JSON.stringify(keywordList)} />
+  )
+}
+
+{
+  mentionsList?.itemListElement?.length && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(mentionsList)}
+    />
+  )
+}

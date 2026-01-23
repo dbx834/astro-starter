@@ -1,0 +1,16 @@
+---
+import Layout from "@/layouts/main.astro";
+import Audio from "@/components/audio/index.astro";
+---
+
+<Layout>
+  <div class="container">
+    <h1>Audio example</h1>
+    <Audio
+      audioUrl="https://www.buzzsprout.com/2192004/episodes/18553108-sex-and-love-the-crucial-distinction.mp3"
+      promptText="Listen"
+      revealText="A short excerpt"
+      dark
+    />
+  </div>
+</Layout>
