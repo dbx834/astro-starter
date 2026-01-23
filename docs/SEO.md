@@ -1,4 +1,3 @@
-````md
 # SEO components overview
 
 This project’s SEO system is built as a small set of **Astro components** that emit:
@@ -92,7 +91,7 @@ const { url } = Astro;
     ]}
   />
 </head>
-````
+```
 
 ---
 
@@ -489,23 +488,12 @@ const mentionsPeople = [
 
 ## Suggested composition patterns
 
-### 1) “Meta tags + modular JSON-LD”
-
 Use:
 
 * `Basic.astro` on every page (meta tags)
-* `Organisation.astro` + `Website.astro` once per site (layout)
+* `Organisation.astro` + `Website.astro` + `SiteNavigationElement.astro` once per site (layout)
 * `Breadcrumbs.astro` on pages where breadcrumbs are meaningful
 * `Article.astro` only on article detail pages
-* `SiteNavigationElement.astro` once per site (layout), if you want nav structured data
-
-### 2) “One JSON-LD bundle per page”
-
-Use:
-
-* `Basic.astro` on every page
-* `Webpage.astro` on pages (collection/about/search/etc.)
-* `Article.astro` on article pages (instead of `Webpage.astro` or alongside, depending on how you want to model the page vs. the article)
 
 ---
 
