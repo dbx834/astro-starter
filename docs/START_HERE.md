@@ -1,8 +1,10 @@
+# README
+
 ## Quick start
 
 ### Prerequisites
 
-* **Node.js:** use **Node 20.3+** (Astro 5.x has moved its minimum Node requirement up to 20.3+). ([Astro][1])
+* **Node.js:** use **Node 20.3+** (Astro 5.x has moved its minimum Node requirement up to 20.3+). ([Astro][astro-1])
 * **Package manager:** `pnpm` (scripts below assume pnpm).
 
 ### Install
@@ -10,7 +12,7 @@
 ```bash
 # install dependencies
 pnpm install
-```
+````
 
 ### Run locally
 
@@ -69,7 +71,7 @@ pnpm run deploy-preview
 pnpm run deploy
 ```
 
-Netlify CLI’s `deploy` command creates a draft deploy by default; `--prod` deploys to your live site. ([Netlify CLI command reference][2])
+Netlify CLI’s `deploy` command creates a draft deploy by default; `--prod` deploys to your live site. ([Netlify CLI command reference][netlify-1])
 
 > **Note (Windows):** scripts that set `NODE_OPTIONS='...'` may not work in `cmd.exe`. Use PowerShell, or adapt the scripts (or add `cross-env`) if needed.
 
@@ -91,14 +93,14 @@ Netlify CLI’s `deploy` command creates a draft deploy by default; `--prod` dep
 * [@tailwindcss/vite](https://www.npmjs.com/package/@tailwindcss/vite) — Tailwind CSS v4 Vite plugin for fast builds and HMR.
 * [airtable](https://www.npmjs.com/package/airtable) — Airtable API client for Node.js/browser.
 * [astro](https://www.npmjs.com/package/astro) — The Astro web framework (content-focused, islands architecture).
-* [astro-capo](https://www.npmjs.com/package/astro-capo) — Automatically sorts/optimizes `<head>` tags with Capo.js for performance. ([npm][3])
+* [astro-capo](https://www.npmjs.com/package/astro-capo) — Automatically sorts/optimizes `<head>` tags with Capo.js for performance. ([npm][astro-capo-1])
 * [astro-compressor](https://www.npmjs.com/package/astro-compressor) — Compress/minify HTML (and related) build output in Astro.
 * [astro-critters](https://www.npmjs.com/package/astro-critters) — Integrates Critters to inline critical CSS and lazy-load the rest.
 * [astro-favicons](https://www.npmjs.com/package/astro-favicons) — Generates favicons and related meta/link tags for Astro.
 * [astro-font](https://www.npmjs.com/package/astro-font) — Font loading/optimization helpers for Astro (self-hosting, preload, etc.).
 * [astro-lenis](https://www.npmjs.com/package/astro-lenis) — Astro integration for Lenis smooth scrolling.
 * [astro-min](https://www.npmjs.com/package/astro-min) — Minifies/optimizes Astro build output.
-* [astro-page-insight](https://www.npmjs.com/package/astro-page-insight) — Shows Lighthouse improvement hints directly on the page during development. ([GitHub][4])
+* [astro-page-insight](https://www.npmjs.com/package/astro-page-insight) — Shows Lighthouse improvement hints directly on the page during development. ([GitHub][astro-page-insight-1])
 * [astro-purgecss](https://www.npmjs.com/package/astro-purgecss) — Integrates PurgeCSS to remove unused CSS from builds.
 * [astro-seo-meta](https://www.npmjs.com/package/astro-seo-meta) — Helpers for generating SEO meta tags in Astro.
 * [astro-seo-schema](https://www.npmjs.com/package/astro-seo-schema) — Helpers for generating schema.org JSON-LD in Astro.
@@ -128,7 +130,7 @@ Netlify CLI’s `deploy` command creates a draft deploy by default; `--prod` dep
 * [@commitlint/cli](https://www.npmjs.com/package/@commitlint/cli) — CLI for enforcing conventional commit message rules.
 * [@commitlint/config-conventional](https://www.npmjs.com/package/@commitlint/config-conventional) — Shared conventional-commits config for commitlint.
 * [@eslint/js](https://www.npmjs.com/package/@eslint/js) — ESLint’s official JavaScript rule/config package.
-* [@kindspells/astro-shield](https://www.npmjs.com/package/@kindspells/astro-shield) — Security hardening for Astro (SRI, CSP, and more). ([Astro-Shield Docs][5])
+* [@kindspells/astro-shield](https://www.npmjs.com/package/@kindspells/astro-shield) — Security hardening for Astro (SRI, CSP, and more). ([Astro-Shield Docs][astro-shield-1])
 * [@playform/inline](https://www.npmjs.com/package/@playform/inline) — Build-time helpers for inlining/optimizing assets (scripts/styles) in pages.
 * [@tailwindcss/postcss](https://www.npmjs.com/package/@tailwindcss/postcss) — Tailwind CSS PostCSS plugin.
 * [@unocss/reset](https://www.npmjs.com/package/@unocss/reset) — CSS reset presets from UnoCSS.
@@ -159,7 +161,7 @@ Netlify CLI’s `deploy` command creates a draft deploy by default; `--prod` dep
 * [postcss-html](https://www.npmjs.com/package/postcss-html) — PostCSS syntax/parser for HTML/template files.
 * [prettier](https://www.npmjs.com/package/prettier) — Opinionated code formatter.
 * [prettier-plugin-astro](https://www.npmjs.com/package/prettier-plugin-astro) — Prettier formatting support for `.astro` files.
-* [sonda](https://www.npmjs.com/package/sonda) — Universal bundle analyzer/visualizer (interactive HTML reports). ([GitHub][6])
+* [sonda](https://www.npmjs.com/package/sonda) — Universal bundle analyzer/visualizer (interactive HTML reports). ([GitHub][sonda-1])
 * [stylelint](https://www.npmjs.com/package/stylelint) — CSS/SCSS linter.
 * [stylelint-config-standard](https://www.npmjs.com/package/stylelint-config-standard) — Standard shared config for Stylelint rules.
 * [stylelint-config-tailwindcss](https://www.npmjs.com/package/stylelint-config-tailwindcss) — Stylelint config tuned for Tailwind projects.
@@ -173,44 +175,45 @@ Netlify CLI’s `deploy` command creates a draft deploy by default; `--prod` dep
 
 * **`react` / `react-dom` → `@preact/compat`** — forces React imports to resolve to Preact compatibility layer (smaller runtime, React-like API).
 
-[1]: https://astro.build/blog/astro-580/ "Astro 5.8"
-[2]: https://cli.netlify.com/commands/deploy/ "Netlify CLI deploy command"
-[3]: https://www.npmjs.com/package/astro-capo?activeTab=versions&utm_source=chatgpt.com "astro-capo"
-[4]: https://github.com/ktym4a/astro-page-insight "ktym4a/astro-page-insight"
-[5]: https://astro-shield.kindspells.dev/ "Welcome to Astro-Shield | Astro-Shield Docs"
-[6]: https://github.com/filipsobol/sonda "filipsobol/sonda: Universal visualizer and analyzer for ..."
+[astro-1]: https://astro.build/blog/astro-580/ "Astro 5.8"
+[netlify-1]: https://cli.netlify.com/commands/deploy/ "Netlify CLI deploy command"
+[astro-capo-1]: https://www.npmjs.com/package/astro-capo?activeTab=versions&utm_source=chatgpt.com "astro-capo"
+[astro-page-insight-1]: https://github.com/ktym4a/astro-page-insight "ktym4a/astro-page-insight"
+[astro-shield-1]: https://astro-shield.kindspells.dev/ "Welcome to Astro-Shield | Astro-Shield Docs"
+[sonda-1]: https://github.com/filipsobol/sonda "filipsobol/sonda: Universal visualizer and analyzer for ..."
 
 ---
+
 ## Recommended development environment
 
-We recommend using **Zed** as the primary editor for this repository: it’s fast, has excellent LSP-based editing, and includes **native Git workflows** (diffs, staging, committing, pulling/pushing, etc.) directly in the editor. ([Zed][1])
+We recommend using **Zed** as the primary editor for this repository: it’s fast, has excellent LSP-based editing, and includes **native Git workflows** (diffs, staging, committing, pulling/pushing, etc.) directly in the editor. ([Zed][zed-1])
 
 ### Suggested Zed extensions
 
-Install these from Zed’s Extensions view (Command Palette → `zed: extensions`). ([Zed][2])
+Install these from Zed’s Extensions view (Command Palette → `zed: extensions`). ([Zed][zed-2])
 
 #### Language support & syntax highlighting
 
-* **Astro** — syntax highlighting + language tooling for `.astro` files. ([Zed][3])
-* **ini** — improves editing for `.ini`-style config files (and related formats like `.editorconfig`). ([Zed][2])
-* **env** — better highlighting/handling for `.env` files and environment-style configs. ([Zed][4])
+* **Astro** — syntax highlighting + language tooling for `.astro` files. ([Zed][zed-3])
+* **ini** — improves editing for `.ini`-style config files (and related formats like `.editorconfig`). ([Zed][zed-4])
+* **env** — better highlighting/handling for `.env` files and environment-style configs. ([Zed][zed-5])
 
 #### Linting, diagnostics, and formatting
 
-* **Stylelint** — CSS/SCSS/Astro/HTML style diagnostics and auto-fix support. ([Zed][5])
-* **ESLint (built-in via language tooling)** — Zed can run ESLint fix actions on format/save for JS/TS when configured. ([Zed][6])
-* **Prettier (external formatter)** — Zed supports running Prettier as an external formatter using `--stdin-filepath` so it formats based on file type. ([Zed][7])
-* **Tailwind CSS (built-in)** — Tailwind autocomplete / hover / linting is supported in Zed (including in Astro and JSX/TSX contexts). ([Zed][8])
+* **Stylelint** — CSS/SCSS/Astro/HTML style diagnostics and auto-fix support. ([Zed][zed-6])
+* **ESLint (built-in via language tooling)** — Zed can run ESLint fix actions on format/save for JS/TS when configured. ([Zed][zed-7])
+* **Prettier (external formatter)** — Zed supports running Prettier as an external formatter using `--stdin-filepath` so it formats based on file type. ([Zed][zed-8])
+* **Tailwind CSS (built-in)** — Tailwind autocomplete / hover / linting is supported in Zed (including in Astro and JSX/TSX contexts). ([Zed][zed-9])
 
 #### Git / CI awareness & repo hygiene
 
-* **GitHub Actions** — nicer editing/validation for workflow files. ([Zed][9])
-* **NPM Package.json Update Checker** — highlights outdated dependencies directly in `package.json` and can surface changelogs. ([Zed][10])
+* **GitHub Actions** — nicer editing/validation for workflow files. ([Zed][zed-10])
+* **NPM Package.json Update Checker** — highlights outdated dependencies directly in `package.json` and can surface changelogs. ([Zed][zed-11])
 
 #### Docs & writing quality
 
-* **Codebook Spell Checker** *(or CSpell)* — spell checking that works well for code, comments, and Markdown. ([Zed][11])
-* **Markdown Oxide** *(optional)* — extra Markdown “knowledge base / linking” workflows if you maintain lots of docs/notes. ([Zed][12])
+* **Codebook Spell Checker** *(or CSpell)* — spell checking that works well for code, comments, and Markdown. ([Zed][zed-12])
+* **Markdown Oxide** *(optional)* — extra Markdown “knowledge base / linking” workflows if you maintain lots of docs/notes. ([Zed][zed-13])
 
 ---
 
@@ -241,158 +244,18 @@ If you want “format on save” to behave like this repo’s tooling (Prettier 
 }
 ```
 
-(These patterns come straight from Zed’s formatter + JavaScript/ESLint docs.) ([Zed][7])
+(These patterns come straight from Zed’s formatter + JavaScript/ESLint docs.) ([Zed][zed-8])
 
-[1]: https://zed.dev/git "Native Git Support"
-[2]: https://zed.dev/extensions/ini "ini — Zed Extension"
-[3]: https://zed.dev/extensions/astro "Astro Extension"
-[4]: https://zed.dev/extensions/env "env — Zed Extension"
-[5]: https://zed.dev/extensions/stylelint "Stylelint — Zed Extension"
-[6]: https://zed.dev/docs/languages/javascript "JavaScript | Zed Code Editor Documentation"
-[7]: https://zed.dev/docs/configuring-zed "Configuring Zed | Zed Code Editor Documentation"
-[8]: https://zed.dev/docs/languages/tailwindcss "Tailwind CSS | Zed Code Editor Documentation"
-[9]: https://zed.dev/extensions/github-actions "GitHub Actions Extension"
-[10]: https://zed.dev/extensions/npm-package-json-checker "NPM Package.json Update Checker Extension"
-[11]: https://zed.dev/extensions/codebook "Codebook Spell Checker Extension"
-[12]: https://zed.dev/extensions/markdown-oxide "Markdown Oxide Extension"
-
----
-
-## Airtable sync + responsive media pipeline
-
-This repository includes a small suite of Node/ESM scripts that let you use **Airtable as a lightweight CMS**, then **compile Airtable records into Astro-friendly content**, and finally **turn Airtable attachments into a fully responsive image set** (multiple formats + multiple sizes) that the browser can pick from automatically.
-
-You can find this under `/scripts/airtable-sync`
-
-### What this suite does
-
-* **`n0-clean.mjs`**: clears previously generated local JSON so you can do a clean regeneration when needed.
-* **`n1-sync.mjs`**: pulls records from Airtable and writes **normalized JSON files** into your Astro content folder (for example `src/content/articles/<recordId>.json`). It also supports *incremental sync* by only querying records changed since the last run (based on a “Last modified” field + a cached checkpoint), and it only rewrites local JSON files when the record’s data actually changed—keeping diffs clean and rebuilds fast.
-* **`n2-images.mjs`**: scans the generated JSON for attachment fields (e.g. covers/attachments), downloads originals, and generates **responsive derivatives** plus a **`manifest.json`** per image (sources, dimensions, placeholder, palette, and focus point).
-
-This workflow makes Airtable feel like a CMS: data workers and editors work in Airtable, the site pulls a clean export, and each new edit can be iterated quickly by re-running the sync + media steps and rebuilding Astro.
-
-### Airtable as CMS: “export view” + field hygiene
-
-The sync step is intentionally strict:
-
-* **Only the Airtable `PUBLISHED` view is synced**. That view becomes your explicit “export surface” for the website.
-* **Fields starting with `_` are ignored** by the sync pipeline. This is a simple but powerful convention: anything you want to keep *only* in Airtable (internal notes, admin fields, intermediate workflow helpers) can be prefixed with `_` and it won’t be carried forward into the site’s content JSON.
-* The script also ignores fields that end with `?`, which is useful for question-style helper columns you may not want downstream.
-
-In practice, this gives you a clean separation between:
-
-* **Airtable-only fields** (prefixed with `_` or `?`) for internal workflow, and
-* **website-eligible fields** (everything else) that can safely flow into your Astro build.
-
-### Publishing workflow: Published vs Draft vs Hold
-
-A good way to run the content lifecycle is:
-
-* **Published** → visible on the website and linked publicly (included in listings/navigation).
-* **Draft** → generated and reachable if you know the URL, but **not linked publicly** (unlisted).
-* **Hold** → never leaves Airtable.
-
-A common pattern is to define the Airtable **`PUBLISHED` view** as “everything except Hold” (so it includes Published + Draft), and then have the site’s templates decide whether to link/list items based on the record’s status.
-
-### Responsive images: multiple sizes, modern formats, fully automated
-
-The image pipeline is designed around how modern responsive images are served on the web:
-
-* For each original image, derivatives are generated at multiple widths (a `srcset`-style set), and in multiple formats (**AVIF**, **WebP**, **JPEG**).
-* A `manifest.json` is written per image containing:
-
-  * intrinsic `width`, `height`, `aspectRatio`
-  * per-format source lists (so you can render `<picture>` / `<source type="image/avif"> …`)
-  * a tiny **base64 LQIP** placeholder and a **dominant color palette**
-  * an ML-derived **focus point** (with SmartCrop fallback), useful for consistent cropping and object-positioning across breakpoints
-
-This maps directly onto established responsive image best practices:
-
-* Use `srcset`/`sizes` so the browser can pick the most appropriate resource for viewport and pixel density. ([MDN Web Docs][1])
-* Use `<picture>` to offer multiple formats (e.g., AVIF/WebP fallbacks) and enable more explicit source selection. ([MDN Web Docs][2])
-* Prefer modern formats like AVIF/WebP when possible for better compression efficiency (while keeping fallbacks). ([MDN Web Docs][3])
-
-The key advantage here is that **all source material generation is automated**: editors attach an image in Airtable, and the scripts handle downloading, resizing, transcoding, and emitting manifests that your Astro components can consume—making “responsive media composition” a build-time concern rather than manual editorial work.
-
-[1]: https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images "Using responsive images in HTML - MDN Web Docs"
-[2]: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/picture "The Picture element - HTML - MDN Web Docs"
-[3]: https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types "Image file type and format guide - Media - MDN Web Docs"
-
----
-
-## Project structure
-
-This repository is organized as a conventional **Astro** site with a clear separation between **routes**, **layouts**, **components**, **content**, and **build-time tooling**.
-
-* **`src/pages/`** contains all route files (`.astro`) that define your public URLs (home, article listings, and dynamic article routes).
-* **`src/layouts/`** defines the shared page shell (global HTML wrapper, shared styles, header/footer).
-* **`src/components/`** holds reusable UI building blocks, including:
-
-  * article rendering (Markdown → JSX),
-  * the header/footer,
-  * the Glider side panel (settings UI),
-  * and a responsive image component that consumes generated attachment manifests.
-* **`src/content/`** is the **source of truth** for publishable content via **Astro Content Collections**. In this project, article records are stored as JSON files (synced from Airtable), validated by the schema in `src/content/config.ts`.
-* **`public/attachments/`** contains **generated responsive image derivatives** and `manifest.json` files used at runtime by the image component.
-* **`src/lib/`** and **`src/store/`** contain shared utilities and persistent UI state (theme/day-night/font sizing).
-* **`src/styles/`** contains global LESS modules that define the design system, layout utilities, and component styling.
-
-For a complete, file-by-file breakdown (with one-line explanations for each file and folder), see **`STRUCTURE.md`**.
-
-
----
-
-## Media-aware breakpoint classes (`media-aware.js`)
-
-`public/scripts/media-aware.js` is a tiny client-side utility that watches the viewport (via `matchMedia`) and keeps the `<body>` tagged with a **stable set of breakpoint / orientation / device classes**. It adds a `media-aware` marker class plus **exactly one width class** (`x-w-xxl | x-w-xl | x-w-lg | x-w-md | x-w-sm | x-w-xs`), **one height class** (`x-h-…`), and flags like `x-is-portrait`, `x-is-landscape`, and `x-is-retina`. Updates are throttled (default ~1000ms, configurable via `window.MEDIA_AWARE_OPTIONS.minIntervalMs`), and it’s Astro-aware: it detaches/re-attaches around `astro:before-swap` / `astro:after-swap` so classes stay correct during client-side navigation. Optionally, it can also write a set of `data-*` attributes onto `<body>` for debugging/inspection, and it emits a `media-state:update` event with the computed state.
-
-### `fixtures.less` and “styling by classes”
-
-`src/styles/fixtures.less` is your **breakpoint styling scaffold**: it mirrors the classes that `media-aware.js` applies and gives you a single place to define global breakpoint overrides **without writing media queries**. Because the classes land on `body#meta`, you can express responsive rules as simple selectors like `body#meta.x-w-xs { … }` or `body#meta.x-w-md.x-is-portrait { … }`. This makes responsiveness very explicit and easy to debug: if a layout looks wrong, you can immediately see which breakpoint class is active and tune the corresponding block.
-
-#### Example 1: collapse the two-column article grid on small screens
-
-```less
-/* src/styles/fixtures.less */
-
-html#meta {
-  body#meta {
-    &.x-w-sm,
-    &.x-w-xs {
-      .grid.PX240-AUTO {
-        grid-template-columns: 1fr;
-
-        > div {
-          &:nth-child(2) {
-            border-left: 0;
-            padding-left: 0;
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-#### Example 2: stack the header nav on phones
-
-```less
-/* src/styles/fixtures.less */
-
-html#meta {
-  body#meta {
-    &.x-w-xs {
-      header#meta {
-        .container > ul {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 0.75rem;
-        }
-      }
-    }
-  }
-}
-```
-
-If you keep most “responsive switches” in `fixtures.less`, it becomes your control panel for layout behavior across devices—while the component/module LESS files stay focused on base styling.
+[zed-1]: https://zed.dev/git "Native Git Support"
+[zed-2]: https://zed.dev/extensions "Zed Extensions"
+[zed-3]: https://zed.dev/extensions/astro "Astro Extension"
+[zed-4]: https://zed.dev/extensions/ini "ini — Zed Extension"
+[zed-5]: https://zed.dev/extensions/env "env — Zed Extension"
+[zed-6]: https://zed.dev/extensions/stylelint "Stylelint — Zed Extension"
+[zed-7]: https://zed.dev/docs/languages/javascript "JavaScript | Zed Code Editor Documentation"
+[zed-8]: https://zed.dev/docs/configuring-zed "Configuring Zed | Zed Code Editor Documentation"
+[zed-9]: https://zed.dev/docs/languages/tailwindcss "Tailwind CSS | Zed Code Editor Documentation"
+[zed-10]: https://zed.dev/extensions/github-actions "GitHub Actions Extension"
+[zed-11]: https://zed.dev/extensions/npm-package-json-checker "NPM Package.json Update Checker Extension"
+[zed-12]: https://zed.dev/extensions/codebook "Codebook Spell Checker Extension"
+[zed-13]: https://zed.dev/extensions/markdown-oxide "Markdown Oxide Extension"

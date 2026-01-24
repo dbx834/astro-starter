@@ -1,5 +1,22 @@
 # Project structure
 
+This repository is organized as a conventional **Astro** site with a clear separation between **routes**, **layouts**, **components**, **content**, and **build-time tooling**.
+
+* **`src/pages/`** contains all route files (`.astro`) that define your public URLs (home, article listings, and dynamic article routes).
+* **`src/layouts/`** defines the shared page shell (global HTML wrapper, shared styles, header/footer).
+* **`src/components/`** holds reusable UI building blocks, including:
+
+  * article rendering (Markdown → JSX),
+  * the header/footer,
+  * the Glider side panel (settings UI),
+  * and a responsive image component that consumes generated attachment manifests.
+* **`src/content/`** is the **source of truth** for publishable content via **Astro Content Collections**. In this project, article records are stored as JSON files (synced from Airtable), validated by the schema in `src/content/config.ts`.
+* **`public/attachments/`** contains **generated responsive image derivatives** and `manifest.json` files used at runtime by the image component.
+* **`src/lib/`** and **`src/store/`** contain shared utilities and persistent UI state (theme/day-night/font sizing).
+* **`src/styles/`** contains global LESS modules that define the design system, layout utilities, and component styling.
+
+## Detailed structure
+
 site/
 ├─ public/                         # Static assets served as-is (not included in this upload)
 │  ├─ attachments/                 # Generated responsive image derivatives + manifest.json per attachment (used by Img.astro)

@@ -1,35 +1,83 @@
 {
-  "__syncedAt": "2026-01-09T06:25:14.150Z",
+  "__syncedAt": "2026-01-24T11:24:14.693Z",
   "cover": [
     {
+      "aspectRatio": 0.606,
+      "cleanFilename": "alena-aenami-eluna1",
+      "filename": "alena-aenami-eluna1.jpg",
+      "height": 2000,
       "id": "att4sWfQDPsRJugd4",
-      "url": "https://v5.airtableusercontent.com/v3/u/49/49/1767952800000/7I6-LGx96NqAj2qbPvgZ0g/kAJHbnGbTqzl0n7U8SiZwATJXo8i5fopukPTHXqviRn8EKtjSJDWN86_gUVm9AUedbsSBQAId4FQmIuAJshysLbxeP5UfJH3KYuH7704ZcYhB6P_DAK7TGJGeTiT-pAARWN3QQuWaceWB8WbKAa1dzOFGEwJ3BW4gB1I1nMJirk/ZPZ7G9wmiUHqFbTmJyTSILgCaZ9PNxEbV05fod9A6G0",
       "size": 1572676,
       "type": "image/jpeg",
-      "width": 1212,
-      "height": 2000,
-      "filename": "alena-aenami-eluna1.jpg",
-      "cleanFilename": "alena-aenami-eluna1",
-      "aspectRatio": 0.606
+      "url": "https://v5.airtableusercontent.com/v3/u/49/49/1769263200000/os8aHt3mgIKGgFzMkrUfxQ/dKDwMX7PA0zhSDSMcA95yJf9C-hX3vxu-alOF7-jrqDbYFJJxM6IKgaKKzw9bc6WvluJfK8UGEpbUQ-wfMSOPBxnAnPHNMlv5W-6GOkVAKDg21oeK_VOSg3GoGPg6PjtQ0Adz3MMkkzCLVDqaWcN3dPcicR7oxGv6YCQVsZW7Js/4-5TqNpwWTmGn3t_xzXHTzGTAVtX63-BvJwRlEP21WI",
+      "width": 1212
     }
   ],
-  "coverSource": [
-    {
-      "id": "att4sWfQDPsRJugd4",
-      "url": "https://v5.airtableusercontent.com/v3/u/49/49/1767952800000/7I6-LGx96NqAj2qbPvgZ0g/kAJHbnGbTqzl0n7U8SiZwATJXo8i5fopukPTHXqviRn8EKtjSJDWN86_gUVm9AUedbsSBQAId4FQmIuAJshysLbxeP5UfJH3KYuH7704ZcYhB6P_DAK7TGJGeTiT-pAARWN3QQuWaceWB8WbKAa1dzOFGEwJ3BW4gB1I1nMJirk/ZPZ7G9wmiUHqFbTmJyTSILgCaZ9PNxEbV05fod9A6G0",
-      "size": 1572676,
-      "type": "image/jpeg",
-      "width": 1212,
-      "height": 2000,
-      "filename": "alena-aenami-eluna1.jpg",
-      "cleanFilename": "alena-aenami-eluna1",
-      "aspectRatio": 0.606
-    }
-  ],
-  "index": 1,
-  "lastModified": "2026-01-09T06:20:43.000Z",
-  "lastModifiedX": 1767939643,
+  "index": "A1",
+  "lastModified": "2026-01-24T11:03:05.000Z",
+  "lastModifiedX": 1769252585,
   "recordId": "recAcGPVpS0JV8BSv",
+  "section": [
+    {
+      "article": {
+        "index": "A1",
+        "lastModified": "2026-01-24T11:03:05.000Z",
+        "lastModifiedX": 1769252585,
+        "recordId": "recAcGPVpS0JV8BSv",
+        "slug": "/articles/1/some-title",
+        "status": "Published",
+        "text": "Some text\n",
+        "title": "Some title"
+      },
+      "index": "S1",
+      "lastModified": "2026-01-24T11:36:23.000Z",
+      "lastModifiedX": 1769254583,
+      "recordId": "reckgFpdWxOw4LVeY",
+      "text": "The old library stood at the corner of Maple Avenue, its weathered brick facade telling stories of decades past. Inside, rows of towering bookshelves stretched toward the ceiling, each one filled with volumes that had been touched by countless curious hands. Dust motes danced in the golden afternoon light streaming through tall windows, creating an almost magical atmosphere. A lone reader sat nestled in a worn leather armchair, completely absorbed in a mystery novel while the world outside carried on unnoticed. The soft ticking of a grandfather clock marked the passing hours, a steady rhythm that had become as familiar as a heartbeat to those who frequented this peaceful sanctuary.\n",
+      "title": "Section 1"
+    },
+    {
+      "article": {
+        "index": "A1",
+        "lastModified": "2026-01-24T11:03:05.000Z",
+        "lastModifiedX": 1769252585,
+        "recordId": "recAcGPVpS0JV8BSv",
+        "slug": "/articles/1/some-title",
+        "status": "Published",
+        "text": "Some text\n",
+        "title": "Some title"
+      },
+      "index": "S2",
+      "lastModified": "2026-01-24T11:36:03.000Z",
+      "lastModifiedX": 1769254563,
+      "recordId": "recR9qLOMSI2n42yA",
+      "text": "The morning sun cast long shadows across the quiet street as neighbors began their daily routines. A gentle breeze rustled through the oak trees, carrying the faint scent of freshly brewed coffee from a nearby café. Birds chirped melodiously from their perches, greeting the new day with enthusiasm. Children's laughter echoed in the distance as they made their way to school, backpacks bouncing with each eager step. It was an ordinary day in many respects, yet filled with small moments of beauty waiting to be noticed by those who paused to observe.\n",
+      "title": "Section 2"
+    },
+    {
+      "article": {
+        "index": "A1",
+        "lastModified": "2026-01-24T11:03:05.000Z",
+        "lastModifiedX": 1769252585,
+        "recordId": "recAcGPVpS0JV8BSv",
+        "slug": "/articles/1/some-title",
+        "status": "Published",
+        "text": "Some text\n",
+        "title": "Some title"
+      },
+      "index": "S3",
+      "lastModified": "2026-01-24T11:36:44.000Z",
+      "lastModifiedX": 1769254604,
+      "recordId": "recmhTvpADMFKtBkZ",
+      "text": "The coastal town woke slowly under a blanket of morning fog, its fishing boats bobbing gently in the harbor. Seagulls cried overhead, circling lazily before diving toward the water in search of breakfast. Along the weathered boardwalk, shop owners unlocked their doors and set out colorful displays of handmade crafts and fresh seafood. The smell of salt air mingled with the aroma of baking bread from the corner bakery, where locals gathered each morning to exchange news and gossip. Beyond the breakwater, the endless ocean stretched toward the horizon, its waves keeping time with the unhurried pace of life in this sleepy seaside village.\n",
+      "title": "Section 3"
+    }
+  ],
+  "sectionReferences": [
+    "reckgFpdWxOw4LVeY",
+    "recR9qLOMSI2n42yA",
+    "recmhTvpADMFKtBkZ"
+  ],
   "slug": "/articles/1/some-title",
   "status": "Published",
   "text": "Some text\n",

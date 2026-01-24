@@ -27,12 +27,14 @@ const FULL_SYNC = process.argv.includes("--full");
 // Tables to fetch from main base
 const TABLES = [
   "Articles",
+  "Sections",
   // "Contributors",
 ];
 
 // Output directories per table (fallback to kebabCase(table))
 const OUT_DIR_MAP = {
   Articles: "../../src/content/articles",
+  Sections: "../../src/content/sections",
   // Contributors: "../../src/resources/contributors",
 };
 
@@ -220,7 +222,7 @@ async function processAirtableRecord(record, folder, options = {}) {
     if (attachmentSet.has(rawKey)) {
       const attachments = normalizeAttachments(rawVal);
       out[nk] = attachments;
-      out[`${nk}Source`] = attachments; // parity with your current shape
+      // out[`${nk}Source`] = attachments; // parity with your current shape
       continue;
     }
 

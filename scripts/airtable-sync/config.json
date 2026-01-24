@@ -1,0 +1,7 @@
+{
+  "TABLES": ["Articles", "Sections"],
+  "OUT_DIR_MAP": {
+    "Articles": "../../src/content/articles",
+    "Sections": "../../src/content/sections"
+  }
+}

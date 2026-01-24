@@ -1,3 +1,5 @@
+# WIP Notes – can ignore
+
 https://github.com/nanostores/nanostores?tab=readme-ov-file
 https://github.com/illuxiza/nanostores-immer
 https://github.com/VdustR/nanostores-qs

@@ -1,34 +1,21 @@
 {
-  "__syncedAt": "2026-01-09T06:25:14.152Z",
+  "__syncedAt": "2026-01-24T11:24:14.694Z",
   "cover": [
     {
+      "aspectRatio": 1.5527950310559007,
+      "cleanFilename": "andreas-rocha-wizardstower01",
+      "filename": "andreas-rocha-wizardstower01.jpg",
+      "height": 1288,
       "id": "attGLCg7y0ZzreXUF",
-      "url": "https://v5.airtableusercontent.com/v3/u/49/49/1767952800000/0LFRAUskzrUB3R0W2rRlQg/jcHNs-3OHw0LqWBKjAY-hSDUCw8YMYdvoi2voWEcpJQdLoOnvS5JT1NPADHKzeOq3enJ-rgiMtE_uVSODJtm0QhDhT9SvY-5ms-p6tkwQr1dwH58QUC2iKE1iTR9AhViDC8huZaNLHnBgnotG7L0ezR-BEwTTE8sJC__MCcZ3kyMNSg1WuD578CKccGNSNJW/-3BYA9sj9ZqjZQ2l5JsDQlPHx25QiA_EF_8CZMA2qqU",
       "size": 395987,
       "type": "image/jpeg",
-      "width": 2000,
-      "height": 1288,
-      "filename": "andreas-rocha-wizardstower01.jpg",
-      "cleanFilename": "andreas-rocha-wizardstower01",
-      "aspectRatio": 1.5527950310559007
+      "url": "https://v5.airtableusercontent.com/v3/u/49/49/1769263200000/YhSxq1L__9EDFBNVj5soZg/slKmjdjdqnBqoLeUIGNlBFclWqDtVVH0GZLaqiuHeULCaKu1Z_yhSFMT9ikAzcqbZg5CULx0D7fBmPhU1JtaEzFtRbjL13SH2iwr8PEcxh4wsPKxagCDfKUWvV386zUzF-lQitdiFKpeNDl_qBn1Ux4lZjC9LHfRrErTbJqNl_jT7QZLwJhSjy2PUTfnwLQZ/iDFGS5joLcjDeAa5wVywFjv8wnJwPX85wzvyIZvqh1Y",
+      "width": 2000
     }
   ],
-  "coverSource": [
-    {
-      "id": "attGLCg7y0ZzreXUF",
-      "url": "https://v5.airtableusercontent.com/v3/u/49/49/1767952800000/0LFRAUskzrUB3R0W2rRlQg/jcHNs-3OHw0LqWBKjAY-hSDUCw8YMYdvoi2voWEcpJQdLoOnvS5JT1NPADHKzeOq3enJ-rgiMtE_uVSODJtm0QhDhT9SvY-5ms-p6tkwQr1dwH58QUC2iKE1iTR9AhViDC8huZaNLHnBgnotG7L0ezR-BEwTTE8sJC__MCcZ3kyMNSg1WuD578CKccGNSNJW/-3BYA9sj9ZqjZQ2l5JsDQlPHx25QiA_EF_8CZMA2qqU",
-      "size": 395987,
-      "type": "image/jpeg",
-      "width": 2000,
-      "height": 1288,
-      "filename": "andreas-rocha-wizardstower01.jpg",
-      "cleanFilename": "andreas-rocha-wizardstower01",
-      "aspectRatio": 1.5527950310559007
-    }
-  ],
-  "index": 2,
-  "lastModified": "2026-01-09T06:20:43.000Z",
-  "lastModifiedX": 1767939643,
+  "index": "A2",
+  "lastModified": "2026-01-24T11:03:00.000Z",
+  "lastModifiedX": 1769252580,
   "recordId": "recjyejYj1K2Y5tnM",
   "slug": "/articles/2/another-title",
   "status": "Published",
